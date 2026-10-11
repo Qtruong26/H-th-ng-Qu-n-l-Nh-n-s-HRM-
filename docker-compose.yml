@@ -129,10 +129,8 @@ services:
     image: grafana/loki:latest
     container_name: hrm-loki
     restart: unless-stopped
-    user: "root"
     volumes:
       - ./loki/loki-config.yml:/etc/loki/local-config.yaml:ro
-      - loki_data:/tmp/loki
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - hrm-network
@@ -158,7 +156,6 @@ volumes:
   postgres_data:
   prometheus_data:
   grafana_data:
-  loki_data:
   app_logs:
 
 networks:
