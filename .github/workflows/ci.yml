@@ -1,0 +1,41 @@
+name: HRM CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    name: Build & Validate Project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: app/package.json
+
+      - name: Install Application Dependencies
+        run: |
+          cd app
+          npm install
+
+      - name: Run Tests
+        run: |
+          cd app
+          npm test
+
+      - name: Validate Docker Compose Configuration
+        run: |
+          docker compose config
+
+      - name: Build Application Docker Image
+        run: |
+          docker build -t hrm-app:latest ./app

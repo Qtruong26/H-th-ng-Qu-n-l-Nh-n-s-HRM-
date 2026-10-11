@@ -1,0 +1,20 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  # Tự giám sát Prometheus
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Thu thập metrics từ ứng dụng Quản lý Nhân sự (HRM App)
+  - job_name: 'hrm-app'
+    metrics_path: '/metrics'
+    scrape_interval: 3s
+    static_configs:
+      - targets: ['app:3000']
+        labels:
+          environment: 'production'
+          service: 'hrm-service'
+          project: 'de-10-hrm'

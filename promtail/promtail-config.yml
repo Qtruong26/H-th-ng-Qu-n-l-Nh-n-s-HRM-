@@ -1,0 +1,37 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  # Thu thập log từ file json của ứng dụng HRM
+  - job_name: 'hrm-app-logs'
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: 'hrm-app'
+          env: 'production'
+          service: 'hrm-service'
+          __path__: /var/log/app/*.log
+
+    pipeline_stages:
+      - json:
+          expressions:
+            timestamp: timestamp
+            level: level
+            message: message
+            service: service
+            method: method
+            url: url
+            status: status
+      - labels:
+          level:
+          method:
+          status:
+          service:
