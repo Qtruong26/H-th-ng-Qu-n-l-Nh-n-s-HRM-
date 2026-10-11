@@ -119,7 +119,6 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
-      - grafana_data:/var/lib/grafana
     depends_on:
       - prometheus
       - loki
@@ -159,7 +158,6 @@ services:
 volumes:
   postgres_data:
   prometheus_data:
-  grafana_data:
   app_logs:
 
 networks:
