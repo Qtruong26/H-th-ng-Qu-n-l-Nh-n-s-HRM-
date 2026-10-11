@@ -33,13 +33,21 @@ app.use((req, res, next) => {
       httpRequestCounter.inc({ method: req.method, route, status });
       httpRequestDuration.observe({ method: req.method, route, status }, durationInSeconds);
 
-      logger.info('HTTP Request processed', {
+      const logData = {
         method: req.method,
         url: req.originalUrl,
         status: res.statusCode,
         duration_ms: Math.round(durationInSeconds * 1000),
         ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress
-      });
+      };
+
+      if (res.statusCode >= 500) {
+        logger.error('HTTP Request server error', logData);
+      } else if (res.statusCode >= 400) {
+        logger.warn('HTTP Request client warning', logData);
+      } else {
+        logger.info('HTTP Request processed', logData);
+      }
     }
   });
 
