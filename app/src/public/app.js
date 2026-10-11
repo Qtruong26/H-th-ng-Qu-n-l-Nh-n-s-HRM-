@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupForms();
   setupSearchAndFilters();
   setupAttendanceActions();
+  setupMonitoringLinks();
 
   // Set default attendance date to today
   const today = new Date().toISOString().split('T')[0];
@@ -26,6 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial Load
   loadAllData();
 });
+
+// Dynamic host for monitoring links (works on localhost, 127.0.0.1, or VM IP)
+function setupMonitoringLinks() {
+  const host = window.location.hostname || 'localhost';
+  const promLink = document.getElementById('link-prometheus');
+  const grafanaLink = document.getElementById('link-grafana');
+  if (promLink) promLink.href = `http://${host}:9090`;
+  if (grafanaLink) grafanaLink.href = `http://${host}:3001`;
+}
 
 // Navigation Handling
 function setupNavigation() {
