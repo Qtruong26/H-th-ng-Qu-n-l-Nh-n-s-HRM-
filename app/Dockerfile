@@ -15,7 +15,7 @@ RUN mkdir -p /var/log/app && chown -R node:node /var/log/app /usr/src/app
 COPY package*.json ./
 
 # Cài đặt dependencies (chỉ production packages)
-RUN npm ci --only=production && npm cache clean --force
+RUN npm install --omit=dev && npm cache clean --force
 
 # Sao chép mã nguồn ứng dụng
 COPY --chown=node:node . .
