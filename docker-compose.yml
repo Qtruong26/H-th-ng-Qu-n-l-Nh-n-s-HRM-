@@ -129,8 +129,6 @@ services:
     image: grafana/loki:latest
     container_name: hrm-loki
     restart: unless-stopped
-    ports:
-      - "3100:3100"
     volumes:
       - ./loki/loki-config.yml:/etc/loki/local-config.yaml:ro
       - loki_data:/tmp/loki
