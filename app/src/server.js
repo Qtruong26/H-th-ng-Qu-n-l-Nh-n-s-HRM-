@@ -308,14 +308,16 @@ app.post('/api/attendances/check-out', async (req, res) => {
   }
 });
 
-// Khởi chạy server
-async function startServer() {
-  await initDB();
-  updateGauges();
-  app.listen(PORT, '0.0.0.0', () => {
-    logger.info(`HRM Application started on port ${PORT}`);
-    console.log(`🚀 HRM Server is running at http://localhost:${PORT}`);
+// Khởi chạy server ngay lập tức
+app.listen(PORT, '0.0.0.0', () => {
+  logger.info(`HRM Application started on port ${PORT}`);
+  console.log(`🚀 HRM Server is running at http://localhost:${PORT}`);
+  
+  // Khởi tạo DB và Gauges trong background
+  initDB().then(() => {
+    updateGauges();
+  }).catch(err => {
+    logger.error('Failed to init DB:', { error: err.message });
   });
-}
+});
 
-startServer();
