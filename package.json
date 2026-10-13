@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "docx": "^9.10.0",
+    "selfsigned": "^5.5.0"
+  }
+}
