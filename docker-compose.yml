@@ -7,15 +7,13 @@ services:
     container_name: hrm-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: hrm_user
-      POSTGRES_PASSWORD: hrm_password123
-      POSTGRES_DB: hrm_db
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: ${DB_USER:-hrm_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-hrm_password123}
+      POSTGRES_DB: ${DB_NAME:-hrm_db}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U hrm_user -d hrm_db || exit 1"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-hrm_user} -d ${DB_NAME:-hrm_db} || exit 1"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -24,15 +22,13 @@ services:
       - hrm-network
 
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:8.5
     container_name: hrm-pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@hrm.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@hrm.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin123}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
-    ports:
-      - "5050:80"
     depends_on:
       postgres:
         condition: service_healthy
@@ -40,7 +36,22 @@ services:
       - hrm-network
 
   # ========================================================
-  # 2. ỨNG DỤNG HRM (NODE.JS EXPRESS + PROMETHEUS METRICS)
+  # 2. POSTGRES EXPORTER (CHO PROMETHEUS METRICS)
+  # ========================================================
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: hrm-postgres-exporter
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "postgresql://${DB_USER:-hrm_user}:${DB_PASSWORD:-hrm_password123}@postgres:5432/${DB_NAME:-hrm_db}?sslmode=disable"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - hrm-network
+
+  # ========================================================
+  # 3. ỨNG DỤNG HRM (NODE.JS EXPRESS + PROMETHEUS METRICS)
   # ========================================================
   app:
     build:
@@ -49,18 +60,17 @@ services:
     container_name: hrm-app
     restart: unless-stopped
     environment:
-      NODE_ENV: production
+      NODE_ENV: ${NODE_ENV:-production}
       PORT: 3000
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_USER: hrm_user
-      DB_PASSWORD: hrm_password123
-      DB_NAME: hrm_db
+      DB_USER: ${DB_USER:-hrm_user}
+      DB_PASSWORD: ${DB_PASSWORD:-hrm_password123}
+      DB_NAME: ${DB_NAME:-hrm_db}
+      JWT_SECRET: ${JWT_SECRET:-hrm_secure_jwt_secret_devops_2026}
       LOG_DIR: /var/log/app
     volumes:
       - app_logs:/var/log/app
-    ports:
-      - "3000:3000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -68,16 +78,18 @@ services:
       - hrm-network
 
   # ========================================================
-  # 3. NGINX REVERSE PROXY & HARDENING
+  # 4. NGINX REVERSE PROXY & HARDENING (HTTP 80 & HTTPS 443)
   # ========================================================
   nginx:
-    image: nginx:alpine
+    image: nginx:1.25-alpine
     container_name: hrm-nginx
     restart: unless-stopped
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
     depends_on:
       - app
       - pgadmin
@@ -85,10 +97,10 @@ services:
       - hrm-network
 
   # ========================================================
-  # 4. GIÁM SÁT CHỈ SỐ: PROMETHEUS & GRAFANA
+  # 5. GIÁM SÁT CHỈ SỐ: PROMETHEUS & GRAFANA
   # ========================================================
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.51.0
     container_name: hrm-prometheus
     restart: unless-stopped
     ports:
@@ -101,19 +113,22 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
+    depends_on:
+      - app
+      - postgres-exporter
     networks:
       - hrm-network
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:10.4.0
     container_name: hrm-grafana
     restart: unless-stopped
     user: "0"
     ports:
       - "3001:3000"
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD:-admin}
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
@@ -126,10 +141,10 @@ services:
       - hrm-network
 
   # ========================================================
-  # 5. THU THẬP & TRUY VẤN LOG: LOKI + PROMTAIL (LOGQL)
+  # 6. THU THẬP & TRUY VẤN LOG: LOKI + PROMTAIL (LOGQL)
   # ========================================================
   loki:
-    image: grafana/loki:latest
+    image: grafana/loki:2.9.5
     container_name: hrm-loki
     restart: unless-stopped
     volumes:
@@ -139,7 +154,7 @@ services:
       - hrm-network
 
   promtail:
-    image: grafana/promtail:latest
+    image: grafana/promtail:2.9.5
     container_name: hrm-promtail
     restart: unless-stopped
     volumes:
