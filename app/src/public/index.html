@@ -3,18 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hệ thống Quản lý Nhân sự (HRM) - Đề 10 KTHP</title>
+  <title>Hệ thống Quản lý Nhân sự (HRM) - KTHP Đề 10</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js CDN for live dashboard charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
+
+  <!-- LOGIN MODAL / OVERLAY (BẢO MẬT & XÁC THỰC) -->
+  <div id="login-overlay" class="login-overlay">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-brand-icon">
+          <i class="fa-solid fa-users-gear"></i>
+        </div>
+        <h2>HỆ THỐNG QUẢN LÝ NHÂN SỰ</h2>
+        <span class="login-subtitle">ĐỀ TÀI 10 - KTHP DEVOPS & CLOUD</span>
+      </div>
+
+      <div id="login-error-alert" class="alert-error" style="display: none;"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label><i class="fa-solid fa-user"></i> Tên đăng nhập</label>
+          <input type="text" id="login-username" class="form-control" required placeholder="Nhập username (ví dụ: admin)">
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+          <input type="password" id="login-password" class="form-control" required placeholder="Nhập mật khẩu">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="btn-login-submit">
+          <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập hệ thống
+        </button>
+      </form>
+
+      <div class="quick-login-section">
+        <div class="divider"><span>HOẶC ĐĂNG NHẬP NHANH DEMO</span></div>
+        <div class="quick-login-buttons">
+          <button type="button" class="btn btn-demo-admin" id="btn-quick-admin">
+            <i class="fa-solid fa-user-shield"></i> <strong>Admin</strong> (admin / Admin@123)
+          </button>
+          <button type="button" class="btn btn-demo-user" id="btn-quick-user-an">
+            <i class="fa-solid fa-user-tie"></i> <strong>Nhân viên</strong> (an.nguyen / An@123)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-brand">
       <div class="brand-icon"><i class="fa-solid fa-users-gear"></i></div>
       <div class="brand-text">
         <h2>HRM System</h2>
-        <span>KTHP - Đề 10</span>
+        <span>KTHP - Đề tài 10</span>
       </div>
     </div>
 
@@ -50,7 +94,7 @@
     <header class="topbar">
       <div class="page-title">
         <h1 id="view-title">Bảng điều khiển Tổng quan</h1>
-        <p class="subtitle">Quản lý nhân viên, phòng ban và chấm công thời gian thực</p>
+        <p class="subtitle">Hệ thống Quản lý Nhân sự, Phân quyền & Giám sát Hệ thống</p>
       </div>
 
       <div class="topbar-actions">
@@ -58,9 +102,22 @@
           <i class="fa-regular fa-clock"></i>
           <span id="live-clock">--:--:--</span>
         </div>
+
         <a href="/metrics" target="_blank" class="badge-link">
           <i class="fa-solid fa-chart-line"></i> /metrics
         </a>
+
+        <!-- User Profile & Logout -->
+        <div class="user-profile-menu">
+          <div class="user-avatar" id="header-user-avatar">AD</div>
+          <div class="user-info">
+            <span class="user-name" id="header-user-name">Quản trị viên</span>
+            <span class="user-role-badge" id="header-user-role">ADMIN</span>
+          </div>
+          <button id="btn-logout" class="btn-logout" title="Đăng xuất">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -99,23 +156,44 @@
           </div>
         </div>
 
+        <!-- CHARTS SECTION -->
+        <div class="charts-grid">
+          <div class="widget-card chart-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-chart-pie"></i> Cơ cấu Nhân sự theo Phòng ban</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-departments"></canvas>
+            </div>
+          </div>
+
+          <div class="widget-card chart-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-chart-simple"></i> Thống kê Chấm công 7 ngày gần nhất</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-attendance-week"></canvas>
+            </div>
+          </div>
+        </div>
+
         <div class="dashboard-widgets">
           <!-- Quick Check-in Box -->
           <div class="widget-card quick-attendance">
             <div class="card-header">
-              <h3><i class="fa-solid fa-fingerprint"></i> Điểm danh nhanh</h3>
+              <h3><i class="fa-solid fa-fingerprint"></i> Điểm danh nhanh hôm nay</h3>
               <span class="tag-today">Hôm nay</span>
             </div>
             <div class="quick-form">
-              <div class="form-group">
-                <label>Chọn nhân viên điểm danh:</label>
+              <div class="form-group" id="quick-emp-select-group">
+                <label>Nhân viên điểm danh:</label>
                 <select id="quick-emp-select" class="form-control">
                   <option value="">-- Chọn nhân viên --</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>Ghi chú (tuỳ chọn):</label>
-                <input type="text" id="quick-notes" class="form-control" placeholder="Ghi chú công việc hoặc lý do...">
+                <input type="text" id="quick-notes" class="form-control" placeholder="Ghi chú công việc...">
               </div>
               <div class="button-group">
                 <button id="btn-quick-checkin" class="btn btn-primary">
@@ -131,26 +209,54 @@
           <!-- Quick Monitoring Status Box -->
           <div class="widget-card infra-status">
             <div class="card-header">
-              <h3><i class="fa-solid fa-shield-halved"></i> Trạng thái Hạ tầng (DevOps)</h3>
+              <h3><i class="fa-solid fa-shield-halved"></i> Trạng thái Hạ tầng DevOps (Đề 10)</h3>
             </div>
             <ul class="infra-list">
               <li>
                 <span class="infra-name"><i class="fa-brands fa-node-js text-green"></i> Node.js App & Express</span>
-                <span class="badge-status online">Port 3000 (Healthy)</span>
+                <span class="badge-status online">Port 3000 (Non-root)</span>
               </li>
               <li>
                 <span class="infra-name"><i class="fa-solid fa-database text-blue"></i> PostgreSQL 16</span>
-                <span class="badge-status online">Port 5432 (Ready)</span>
+                <span class="badge-status online">Port 5432 (Internal)</span>
               </li>
               <li>
                 <span class="infra-name"><i class="fa-solid fa-network-wired text-purple"></i> Nginx Reverse Proxy</span>
-                <span class="badge-status online">Port 80 (Hardened)</span>
+                <span class="badge-status online">Port 80 & 443 HTTPS</span>
               </li>
               <li>
-                <span class="infra-name"><i class="fa-solid fa-gauge-high text-amber"></i> Prometheus & Grafana</span>
-                <span class="badge-status online">Metrics & Logs Live</span>
+                <span class="infra-name"><i class="fa-solid fa-gauge-high text-amber"></i> Prometheus & Postgres Exporter</span>
+                <span class="badge-status online">Port 9090 (Scraping)</span>
+              </li>
+              <li>
+                <span class="infra-name"><i class="fa-solid fa-chart-area text-orange"></i> Grafana & Loki Logs</span>
+                <span class="badge-status online">Port 3001 (LogQL Live)</span>
               </li>
             </ul>
+          </div>
+        </div>
+
+        <!-- Recent Employees Table -->
+        <div class="widget-card recent-employees-card" style="margin-top: 24px;">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-user-clock"></i> Nhân viên mới gia nhập gần đây</h3>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Mã NV</th>
+                  <th>Họ và Tên</th>
+                  <th>Phòng ban</th>
+                  <th>Chức vụ</th>
+                  <th>Ngày vào làm</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody id="recent-emp-table-body">
+                <tr><td colspan="6" class="text-center">Đang tải...</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
@@ -166,8 +272,14 @@
             <select id="emp-filter-dept" class="filter-select">
               <option value="">Tất cả phòng ban</option>
             </select>
+            <select id="emp-filter-status" class="filter-select">
+              <option value="">Tất cả trạng thái</option>
+              <option value="ACTIVE">Đang làm việc</option>
+              <option value="ON_LEAVE">Nghỉ phép</option>
+              <option value="RESIGNED">Đã nghỉ việc</option>
+            </select>
           </div>
-          <button class="btn btn-primary" id="btn-open-add-emp">
+          <button class="btn btn-primary admin-only" id="btn-open-add-emp">
             <i class="fa-solid fa-user-plus"></i> Thêm Nhân viên
           </button>
         </div>
@@ -181,7 +293,7 @@
                 <th>Phòng ban</th>
                 <th>Chức vụ</th>
                 <th>Liên hệ</th>
-                <th>Lương (VND)</th>
+                <th>Mức lương</th>
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
               </tr>
@@ -191,15 +303,26 @@
             </tbody>
           </table>
         </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-bar" id="emp-pagination-bar">
+          <span class="pagination-info" id="emp-pagination-info">Hiển thị 0 - 0 trong 0 nhân viên</span>
+          <div class="pagination-buttons">
+            <button class="btn btn-outline" id="btn-emp-prev"><i class="fa-solid fa-chevron-left"></i> Trước</button>
+            <span class="page-current" id="emp-current-page">1 / 1</span>
+            <button class="btn btn-outline" id="btn-emp-next">Sau <i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
       </section>
 
       <!-- 3. DEPARTMENTS TAB -->
       <section id="tab-departments" class="tab-pane">
         <div class="pane-toolbar">
-          <div class="toolbar-title">
-            <h3>Danh sách Phòng ban doanh nghiệp</h3>
+          <div class="search-box" style="width: 320px;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="dept-search-input" placeholder="Tìm phòng ban theo tên, mã...">
           </div>
-          <button class="btn btn-primary" id="btn-open-add-dept">
+          <button class="btn btn-primary admin-only" id="btn-open-add-dept">
             <i class="fa-solid fa-plus"></i> Tạo Phòng ban mới
           </button>
         </div>
@@ -213,12 +336,24 @@
       <section id="tab-attendance" class="tab-pane">
         <div class="pane-toolbar">
           <div class="search-filters">
-            <label for="attendance-date" style="font-weight: 600; margin-right: 8px;">Ngày xem:</label>
+            <label for="attendance-date" style="font-weight: 600; margin-right: 6px;">Ngày:</label>
             <input type="date" id="attendance-date" class="form-control" style="width: auto;">
+            
+            <label for="attendance-month" style="font-weight: 600; margin-left: 12px; margin-right: 6px;">Tháng:</label>
+            <input type="month" id="attendance-month" class="form-control" style="width: auto;">
+
+            <select id="attendance-filter-dept" class="filter-select" style="margin-left: 12px;">
+              <option value="">Tất cả phòng ban</option>
+            </select>
+
             <button id="btn-refresh-attendance" class="btn btn-outline">
-              <i class="fa-solid fa-rotate"></i> Tải lại
+              <i class="fa-solid fa-rotate"></i> Lọc
             </button>
           </div>
+
+          <button id="btn-manual-attendance" class="btn btn-primary admin-only">
+            <i class="fa-solid fa-pen-to-square"></i> Chấm công thủ công
+          </button>
         </div>
 
         <div class="table-container">
@@ -228,14 +363,16 @@
                 <th>Mã NV</th>
                 <th>Họ Tên</th>
                 <th>Phòng ban</th>
+                <th>Ngày làm việc</th>
                 <th>Check In</th>
                 <th>Check Out</th>
+                <th>Tổng giờ</th>
                 <th>Trạng thái</th>
                 <th>Ghi chú</th>
               </tr>
             </thead>
             <tbody id="attendance-table-body">
-              <tr><td colspan="7" class="text-center">Đang tải dữ liệu...</td></tr>
+              <tr><td colspan="9" class="text-center">Đang tải dữ liệu...</td></tr>
             </tbody>
           </table>
         </div>
@@ -245,49 +382,80 @@
       <section id="tab-monitoring" class="tab-pane">
         <div class="monitoring-intro">
           <h3>Cụm Giám sát Hệ thống (Prometheus + Grafana + Loki + LogQL)</h3>
-          <p>Yêu cầu kỹ thuật theo đề bài đã được tích hợp đầy đủ và cấu hình tự động.</p>
+          <p>Hệ thống giám sát chỉ số (Metrics) và thu thập log tập trung (Centralized Logging) theo chuẩn DevOps.</p>
         </div>
 
         <div class="monitoring-links-grid">
           <div class="monitor-box">
             <div class="box-icon"><i class="fa-solid fa-chart-line text-blue"></i></div>
             <h4>Prometheus</h4>
-            <p>Thu thập và phân tích các chỉ số thời gian thực từ HRM App</p>
+            <p>Thu thập và phân tích các chỉ số thời gian thực từ HRM App và PostgreSQL Exporter</p>
             <a href="http://localhost:9090" target="_blank" class="btn btn-outline" id="link-prometheus">Mở Prometheus (:9090)</a>
           </div>
 
           <div class="monitor-box">
             <div class="box-icon"><i class="fa-solid fa-chart-area text-amber"></i></div>
             <h4>Grafana Dashboards</h4>
-            <p>Bảng điều khiển trực quan hóa Metrics và Logs tập trung</p>
+            <p>Bảng điều khiển trực quan hóa Metrics và Logs tập trung tự động nạp</p>
             <a href="http://localhost:3001" target="_blank" class="btn btn-outline" id="link-grafana">Mở Grafana (:3001)</a>
           </div>
 
           <div class="monitor-box">
             <div class="box-icon"><i class="fa-solid fa-database text-purple"></i></div>
             <h4>pgAdmin 4</h4>
-            <p>Quản trị cơ sở dữ liệu PostgreSQL trực quan qua web</p>
-            <a href="/pgadmin/" target="_blank" class="btn btn-outline" id="link-pgadmin">Mở pgAdmin (Proxy /pgadmin)</a>
+            <p>Quản trị cơ sở dữ liệu PostgreSQL trực quan qua Nginx Reverse Proxy</p>
+            <a href="/pgadmin/" target="_blank" class="btn btn-outline" id="link-pgadmin">Mở pgAdmin (/pgadmin)</a>
+          </div>
+
+          <div class="monitor-box">
+            <div class="box-icon"><i class="fa-solid fa-lock text-green"></i></div>
+            <h4>Nginx HTTPS (SSL/TLS)</h4>
+            <p>Kiểm tra giao thức HTTPS an toàn trên cổng 443 với chứng chỉ tự ký</p>
+            <a href="https://localhost/" target="_blank" class="btn btn-outline">Mở HTTPS (:443)</a>
           </div>
         </div>
 
         <div class="logql-guide-card">
-          <h4><i class="fa-solid fa-terminal"></i> Câu lệnh mẫu LogQL để demo chấm điểm trên Grafana:</h4>
+          <h4><i class="fa-solid fa-terminal"></i> Các câu lệnh LogQL mẫu để chấm thi trên Grafana Explore:</h4>
+          
           <div class="code-snippet">
-            <code>{job="hrm-app"}</code>
-            <span class="code-desc">Xem toàn bộ stream logs của HRM App</span>
+            <div class="snippet-header">
+              <code>{job="hrm-app"}</code>
+              <button class="btn-copy" onclick="copySnippetCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+            </div>
+            <span class="code-desc">Xem toàn bộ dòng log stream của HRM Application.</span>
           </div>
+
           <div class="code-snippet">
-            <code>{job="hrm-app"} |= "HTTP Request processed"</code>
-            <span class="code-desc">Lọc các request được xử lý qua Nginx/App</span>
+            <div class="snippet-header">
+              <code>{job="hrm-app"} |= "HTTP Request processed"</code>
+              <button class="btn-copy" onclick="copySnippetCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+            </div>
+            <span class="code-desc">Lọc toàn bộ các yêu cầu HTTP đã được xử lý qua Nginx & App.</span>
           </div>
+
           <div class="code-snippet">
-            <code>{job="hrm-app"} |= "error"</code>
-            <span class="code-desc">Truy vết log lỗi của hệ thống</span>
+            <div class="snippet-header">
+              <code>{job="hrm-app"} |= "Employee checked in"</code>
+              <button class="btn-copy" onclick="copySnippetCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+            </div>
+            <span class="code-desc">Truy vết sự kiện nhân viên thực hiện điểm danh Check In.</span>
           </div>
+
           <div class="code-snippet">
-            <code>rate({job="hrm-app"}[1m])</code>
-            <span class="code-desc">Đo tốc độ phát sinh log trên mỗi phút</span>
+            <div class="snippet-header">
+              <code>{job="hrm-app"} |= "error"</code>
+              <button class="btn-copy" onclick="copySnippetCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+            </div>
+            <span class="code-desc">Truy vấn nhanh tất cả các log phát sinh lỗi trong hệ thống.</span>
+          </div>
+
+          <div class="code-snippet">
+            <div class="snippet-header">
+              <code>rate({job="hrm-app"}[1m])</code>
+              <button class="btn-copy" onclick="copySnippetCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+            </div>
+            <span class="code-desc">Vẽ biểu đồ tần suất phát sinh logs trong mỗi phút.</span>
           </div>
         </div>
       </section>
@@ -296,7 +464,7 @@
 
   <!-- MODAL: ADD / EDIT EMPLOYEE -->
   <div class="modal-backdrop" id="emp-modal">
-    <div class="modal-box">
+    <div class="modal-box modal-lg">
       <div class="modal-header">
         <h3 id="emp-modal-title">Thêm Nhân viên mới</h3>
         <button class="btn-close" id="btn-close-emp-modal">&times;</button>
@@ -313,12 +481,28 @@
             <input type="text" id="emp-fullname" required placeholder="Nguyễn Văn A">
           </div>
           <div class="form-group">
+            <label>Ngày sinh</label>
+            <input type="date" id="emp-birthdate">
+          </div>
+          <div class="form-group">
+            <label>Giới tính</label>
+            <select id="emp-gender">
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+              <option value="Khác">Khác</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label>Email <span class="required">*</span></label>
             <input type="email" id="emp-email" required placeholder="email@hrm.com">
           </div>
           <div class="form-group">
             <label>Số điện thoại</label>
             <input type="text" id="emp-phone" placeholder="0987654321">
+          </div>
+          <div class="form-group" style="grid-column: span 2;">
+            <label>Địa chỉ thường trú</label>
+            <input type="text" id="emp-address" placeholder="Số nhà, đường, quận/huyện, tỉnh/thành phố">
           </div>
           <div class="form-group">
             <label>Phòng ban</label>
@@ -331,7 +515,20 @@
             <input type="text" id="emp-position" placeholder="Kỹ sư phần mềm">
           </div>
           <div class="form-group">
-            <label>Mức lương (VNĐ)</label>
+            <label>Ngày vào làm</label>
+            <input type="date" id="emp-joineddate">
+          </div>
+          <div class="form-group">
+            <label>Loại hợp đồng</label>
+            <select id="emp-contract">
+              <option value="Toàn thời gian">Toàn thời gian (Chính thức)</option>
+              <option value="Thử việc">Thử việc</option>
+              <option value="Bán thời gian">Bán thời gian (Part-time)</option>
+              <option value="Thời vụ">Thời vụ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Mức lương (VNĐ) <span class="required">*</span></label>
             <input type="number" id="emp-salary" value="15000000" min="0">
           </div>
           <div class="form-group">
@@ -351,14 +548,31 @@
     </div>
   </div>
 
-  <!-- MODAL: ADD DEPARTMENT -->
+  <!-- MODAL: VIEW EMPLOYEE DETAIL -->
+  <div class="modal-backdrop" id="emp-detail-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-address-card"></i> Hồ sơ Chi tiết Nhân viên</h3>
+        <button class="btn-close" id="btn-close-emp-detail">&times;</button>
+      </div>
+      <div class="emp-dossier" id="emp-dossier-content">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-close-emp-detail-footer">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT DEPARTMENT -->
   <div class="modal-backdrop" id="dept-modal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3>Tạo Phòng ban mới</h3>
+        <h3 id="dept-modal-title">Tạo Phòng ban mới</h3>
         <button class="btn-close" id="btn-close-dept-modal">&times;</button>
       </div>
       <form id="dept-form">
+        <input type="hidden" id="dept-form-id">
         <div class="form-group">
           <label>Mã phòng ban <span class="required">*</span></label>
           <input type="text" id="dept-code" required placeholder="Ví dụ: RND, SALE...">
@@ -374,6 +588,85 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="btn-cancel-dept">Hủy</button>
           <button type="submit" class="btn btn-primary">Lưu phòng ban</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: VIEW DEPARTMENT EMPLOYEES -->
+  <div class="modal-backdrop" id="dept-employees-modal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <h3 id="dept-employees-title">Nhân sự thuộc phòng ban</h3>
+        <button class="btn-close" id="btn-close-dept-emp-modal">&times;</button>
+      </div>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Mã NV</th>
+              <th>Họ và Tên</th>
+              <th>Chức vụ</th>
+              <th>Email</th>
+              <th>SĐT</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody id="dept-emp-table-body">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-close-dept-emp-footer">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: MANUAL ATTENDANCE (ADMIN ONLY) -->
+  <div class="modal-backdrop" id="manual-att-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-clock"></i> Chấm công Bổ sung / Điều chỉnh</h3>
+        <button class="btn-close" id="btn-close-manual-att">&times;</button>
+      </div>
+      <form id="manual-att-form">
+        <div class="form-group">
+          <label>Chọn Nhân viên <span class="required">*</span></label>
+          <select id="manual-att-emp" class="form-control" required>
+            <option value="">-- Chọn nhân viên --</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ngày làm việc <span class="required">*</span></label>
+          <input type="date" id="manual-att-date" class="form-control" required>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Giờ Check In</label>
+            <input type="time" id="manual-att-checkin" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Giờ Check Out</label>
+            <input type="time" id="manual-att-checkout" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Trạng thái</label>
+          <select id="manual-att-status" class="form-control">
+            <option value="PRESENT">Đúng giờ (PRESENT)</option>
+            <option value="LATE">Đi muộn (LATE)</option>
+            <option value="EARLY_LEAVE">Về sớm (EARLY_LEAVE)</option>
+            <option value="ABSENT">Vắng mặt (ABSENT)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ghi chú</label>
+          <input type="text" id="manual-att-notes" class="form-control" placeholder="Lý do bổ sung...">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-manual-att">Hủy</button>
+          <button type="submit" class="btn btn-primary">Lưu bản ghi</button>
         </div>
       </form>
     </div>
