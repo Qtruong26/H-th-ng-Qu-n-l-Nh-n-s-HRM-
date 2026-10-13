@@ -44,11 +44,19 @@ const attendanceEventsCounter = new client.Counter({
   registers: [register]
 });
 
+const authAttemptsCounter = new client.Counter({
+  name: 'hrm_auth_attempts_total',
+  help: 'Tổng số lượt đăng nhập hệ thống HRM',
+  labelNames: ['status', 'role'],
+  registers: [register]
+});
+
 module.exports = {
   register,
   httpRequestCounter,
   httpRequestDuration,
   activeEmployeesGauge,
   activeDepartmentsGauge,
-  attendanceEventsCounter
+  attendanceEventsCounter,
+  authAttemptsCounter
 };

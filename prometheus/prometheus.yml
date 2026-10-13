@@ -18,3 +18,13 @@ scrape_configs:
           environment: 'production'
           service: 'hrm-service'
           project: 'de-10-hrm'
+
+  # Thu thập metrics từ cơ sở dữ liệu PostgreSQL qua postgres-exporter
+  - job_name: 'postgres-database'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+        labels:
+          environment: 'production'
+          service: 'postgres-db'
+          project: 'de-10-hrm'

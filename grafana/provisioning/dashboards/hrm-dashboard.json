@@ -21,7 +21,6 @@
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
-          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -31,24 +30,18 @@
           }
         }
       },
-      "gridPos": { "h": 5, "w": 6, "x": 0, "y": 1 },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
       "id": 1,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
+        "reduceOptions": { "calcs": ["lastNotNull"] }
       },
-      "pluginVersion": "10.0.0",
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "Prometheus" },
-          "editorMode": "code",
           "expr": "hrm_active_employees_count",
           "legendFormat": "Nhân viên hoạt động",
-          "range": true,
           "refId": "A"
         }
       ],
@@ -68,15 +61,12 @@
           }
         }
       },
-      "gridPos": { "h": 5, "w": 6, "x": 6, "y": 1 },
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
       "id": 2,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
-        "textMode": "auto"
+        "reduceOptions": { "calcs": ["lastNotNull"] }
       },
       "targets": [
         {
@@ -97,7 +87,7 @@
           "unit": "reqps"
         }
       },
-      "gridPos": { "h": 5, "w": 6, "x": 12, "y": 1 },
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
       "id": 3,
       "options": {
         "colorMode": "value",
@@ -123,13 +113,12 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "red", "value": 1 }
+              { "color": "green", "value": null }
             ]
           }
         }
       },
-      "gridPos": { "h": 5, "w": 6, "x": 18, "y": 1 },
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
       "id": 4,
       "options": {
         "colorMode": "value",
@@ -149,9 +138,9 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 6 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
       "id": 101,
-      "title": "HIỆU NĂNG VÀ THỜI GIAN ĐÁP ỨNG HTTP",
+      "title": "HIỆU NĂNG VÀ ĐỘ TRỄ HTTP REQUEST",
       "type": "row"
     },
     {
@@ -165,7 +154,7 @@
           "unit": "reqps"
         }
       },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 7 },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 6 },
       "id": 5,
       "title": "HTTP Request Rate theo Method & Route",
       "type": "timeseries",
@@ -189,7 +178,7 @@
           "unit": "s"
         }
       },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 7 },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 6 },
       "id": 6,
       "title": "Độ trễ Response Time (P95 Latency)",
       "type": "timeseries",
@@ -204,14 +193,67 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 15 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 13 },
       "id": 102,
+      "title": "CƠ SỞ DỮ LIỆU POSTGRESQL & BẢO MẬT XÁC THỰC",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line" }
+        }
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 14 },
+      "id": 8,
+      "title": "PostgreSQL Active Connections & Transactions",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "Prometheus" },
+          "expr": "pg_stat_database_numbackends{datname=\"hrm_db\"}",
+          "legendFormat": "Active Connections (hrm_db)",
+          "refId": "A"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "Prometheus" },
+          "expr": "rate(pg_stat_database_xact_commit{datname=\"hrm_db\"}[1m])",
+          "legendFormat": "Commits/sec",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "bars" }
+        }
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 14 },
+      "id": 9,
+      "title": "Theo dõi Đăng nhập & Xác thực (Auth Events)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "Prometheus" },
+          "expr": "sum by (status, role) (rate(hrm_auth_attempts_total[1m]))",
+          "legendFormat": "{{status}} ({{role}})",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 21 },
+      "id": 103,
       "title": "LOGQL LIVE STREAMING (GRAFANA + LOKI)",
       "type": "row"
     },
     {
       "datasource": { "type": "loki", "uid": "Loki" },
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 16 },
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 22 },
       "id": 7,
       "options": {
         "dedupStrategy": "none",
@@ -249,5 +291,5 @@
   "timezone": "browser",
   "title": "HRM System - Monitoring & LogQL Dashboard",
   "uid": "hrm-system-overview",
-  "version": 1
+  "version": 2
 }
