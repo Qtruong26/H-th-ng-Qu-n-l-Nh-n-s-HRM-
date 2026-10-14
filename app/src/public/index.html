@@ -14,43 +14,48 @@
 </head>
 <body>
 
-  <!-- LOGIN MODAL / OVERLAY (BẢO MẬT & XÁC THỰC) -->
+  <!-- LOGIN FULL-SCREEN PAGE -->
   <div id="login-overlay" class="login-overlay">
     <div class="login-card login-split-card">
-      <!-- Cột ảnh minh họa Nhân sự -->
+      <!-- Cột ảnh minh họa Nhân sự full chiều cao -->
       <div class="login-banner">
         <img src="hrm_login_hero.jpg" alt="HRM Talent & Personnel Portal" class="login-hero-img">
         <div class="login-banner-overlay">
-          <h3>Quản lý Nhân tài & Hiệu suất</h3>
-          <p>Nền tảng số hóa quản trị nhân sự, chấm công thông minh và giám sát hệ thống tập trung.</p>
+          <div class="login-banner-badge">
+            <i class="fa-solid fa-shield-halved"></i> Enterprise HRM Portal
+          </div>
+          <h3>Quản lý Nhân tài & Hiệu suất Toàn diện</h3>
+          <p>Nền tảng số hóa quản trị nhân sự, theo dõi hiệu suất, chấm công thông minh và bảo mật dữ liệu tập trung cho doanh nghiệp.</p>
         </div>
       </div>
 
-      <!-- Cột Form đăng nhập -->
+      <!-- Cột Form đăng nhập full chiều cao -->
       <div class="login-form-container">
-        <div class="login-header">
-          <div class="login-brand-icon">
-            <i class="fa-solid fa-users-gear"></i>
+        <div class="login-form-inner">
+          <div class="login-header">
+            <div class="login-brand-icon">
+              <i class="fa-solid fa-users-gear"></i>
+            </div>
+            <h2>HỆ THỐNG QUẢN LÝ NHÂN SỰ</h2>
+            <span class="login-welcome">Vui lòng đăng nhập để truy cập hệ thống</span>
           </div>
-          <h2>HỆ THỐNG QUẢN LÝ NHÂN SỰ</h2>
-          <span class="login-welcome">Vui lòng đăng nhập để truy cập hệ thống</span>
+
+          <div id="login-error-alert" class="alert-error" style="display: none;"></div>
+
+          <form id="login-form">
+            <div class="form-group">
+              <label><i class="fa-solid fa-user"></i> Tên đăng nhập</label>
+              <input type="text" id="login-username" class="form-control" required placeholder="Nhập tên đăng nhập">
+            </div>
+            <div class="form-group">
+              <label><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+              <input type="password" id="login-password" class="form-control" required placeholder="Nhập mật khẩu">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" id="btn-login-submit">
+              <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập hệ thống
+            </button>
+          </form>
         </div>
-
-        <div id="login-error-alert" class="alert-error" style="display: none;"></div>
-
-        <form id="login-form">
-          <div class="form-group">
-            <label><i class="fa-solid fa-user"></i> Tên đăng nhập</label>
-            <input type="text" id="login-username" class="form-control" required placeholder="Nhập tên đăng nhập">
-          </div>
-          <div class="form-group">
-            <label><i class="fa-solid fa-lock"></i> Mật khẩu</label>
-            <input type="password" id="login-password" class="form-control" required placeholder="Nhập mật khẩu">
-          </div>
-          <button type="submit" class="btn btn-primary btn-block" id="btn-login-submit">
-            <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập hệ thống
-          </button>
-        </form>
       </div>
     </div>
   </div>
