@@ -266,7 +266,16 @@ function copyText(text) {
 function copySnippetCode(btn) {
   const codeEl = btn.closest('.code-snippet')?.querySelector('code');
   if (codeEl) {
+    const originalHtml = btn.innerHTML;
     copyText(codeEl.innerText.trim());
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã chép!';
+    btn.style.color = '#4ade80';
+    btn.style.borderColor = '#4ade80';
+    setTimeout(() => {
+      btn.innerHTML = originalHtml;
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 2000);
   }
 }
 
@@ -411,10 +420,19 @@ function renderRecentEmployees(recentList) {
   }
 
   recentList.forEach(e => {
+    const initials = (e.full_name || 'NV').slice(0, 2).toUpperCase();
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><strong>${escapeHtml(e.code)}</strong></td>
-      <td>${escapeHtml(e.full_name)}</td>
+      <td><span class="emp-code-pill">${escapeHtml(e.code)}</span></td>
+      <td>
+        <div class="user-cell">
+          <div class="table-avatar">${escapeHtml(initials)}</div>
+          <div class="user-cell-info">
+            <span class="user-cell-name">${escapeHtml(e.full_name)}</span>
+            <span class="user-cell-email">${escapeHtml(e.email || '')}</span>
+          </div>
+        </div>
+      </td>
       <td><span class="dept-code-tag">${escapeHtml(e.department_name || 'Chưa xếp')}</span></td>
       <td>${escapeHtml(e.position || 'Nhân viên')}</td>
       <td>${e.joined_date ? e.joined_date.split('T')[0] : 'N/A'}</td>
@@ -598,28 +616,37 @@ function renderEmployeeTable() {
   const isAdmin = currentUser && currentUser.role === 'ADMIN';
 
   employees.forEach(emp => {
+    const initials = (emp.full_name || 'NV').slice(0, 2).toUpperCase();
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><strong>${escapeHtml(emp.code)}</strong></td>
-      <td>${escapeHtml(emp.full_name)}</td>
+      <td><span class="emp-code-pill">${escapeHtml(emp.code)}</span></td>
+      <td>
+        <div class="user-cell">
+          <div class="table-avatar">${escapeHtml(initials)}</div>
+          <div class="user-cell-info">
+            <span class="user-cell-name">${escapeHtml(emp.full_name)}</span>
+            <span class="user-cell-sub">${escapeHtml(emp.gender || '')}</span>
+          </div>
+        </div>
+      </td>
       <td><span class="dept-code-tag">${escapeHtml(emp.department_name || 'Chưa phân')}</span></td>
       <td>${escapeHtml(emp.position || 'Nhân viên')}</td>
       <td>
-        <div><i class="fa-solid fa-envelope text-muted"></i> ${escapeHtml(emp.email)}</div>
-        ${emp.phone ? `<div><i class="fa-solid fa-phone text-muted"></i> ${escapeHtml(emp.phone)}</div>` : ''}
+        <div class="contact-item"><i class="fa-solid fa-envelope text-muted"></i> ${escapeHtml(emp.email)}</div>
+        ${emp.phone ? `<div class="contact-item"><i class="fa-solid fa-phone text-muted"></i> ${escapeHtml(emp.phone)}</div>` : ''}
       </td>
       <td class="salary-tag">${formatMoney(emp.salary)}</td>
       <td><span class="tag-status ${emp.status ? emp.status.toLowerCase() : 'active'}">${emp.status || 'ACTIVE'}</span></td>
       <td>
         <div class="button-group">
-          <button class="btn btn-outline btn-action" onclick="viewEmployeeDetail(${emp.id})" title="Chi tiết hồ sơ">
+          <button class="btn btn-outline btn-icon" onclick="viewEmployeeDetail(${emp.id})" title="Chi tiết hồ sơ">
             <i class="fa-solid fa-eye"></i>
           </button>
           ${isAdmin ? `
-            <button class="btn btn-outline btn-action" onclick="openEditEmployee(${emp.id})" title="Chỉnh sửa">
+            <button class="btn btn-outline btn-icon btn-edit" onclick="openEditEmployee(${emp.id})" title="Chỉnh sửa">
               <i class="fa-solid fa-pen"></i>
             </button>
-            <button class="btn btn-outline btn-action" style="color: #ef4444;" onclick="deleteEmployee(${emp.id})" title="Xóa nhân viên">
+            <button class="btn btn-outline btn-icon btn-delete" onclick="deleteEmployee(${emp.id})" title="Xóa nhân viên">
               <i class="fa-solid fa-trash"></i>
             </button>
           ` : ''}
@@ -653,20 +680,30 @@ async function viewEmployeeDetail(id) {
     const emp = await res.json();
 
     const dossier = document.getElementById('emp-dossier-content');
+    const initials = (emp.full_name || 'NV').slice(0, 2).toUpperCase();
     dossier.innerHTML = `
-      <div class="dossier-row"><span class="dossier-label">Mã nhân viên:</span><span class="dossier-value">${escapeHtml(emp.code)}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Họ và Tên:</span><span class="dossier-value">${escapeHtml(emp.full_name)}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Ngày sinh:</span><span class="dossier-value">${emp.birth_date ? emp.birth_date.split('T')[0] : 'Chưa cập nhật'}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Giới tính:</span><span class="dossier-value">${escapeHtml(emp.gender || 'Khác')}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Email:</span><span class="dossier-value">${escapeHtml(emp.email)}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Số điện thoại:</span><span class="dossier-value">${escapeHtml(emp.phone || 'Chưa cập nhật')}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Địa chỉ:</span><span class="dossier-value">${escapeHtml(emp.address || 'Chưa cập nhật')}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Phòng ban:</span><span class="dossier-value">${escapeHtml(emp.department_name || 'Chưa xếp')}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Chức vụ:</span><span class="dossier-value">${escapeHtml(emp.position || 'Nhân viên')}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Ngày vào làm:</span><span class="dossier-value">${emp.joined_date ? emp.joined_date.split('T')[0] : 'N/A'}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Loại hợp đồng:</span><span class="dossier-value">${escapeHtml(emp.contract_type || 'Toàn thời gian')}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Mức lương:</span><span class="dossier-value">${formatMoney(emp.salary)}</span></div>
-      <div class="dossier-row"><span class="dossier-label">Trạng thái:</span><span class="dossier-value tag-status ${emp.status ? emp.status.toLowerCase() : 'active'}">${emp.status || 'ACTIVE'}</span></div>
+      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px; padding: 14px; background: linear-gradient(135deg, #eef2ff, #f0fdf4); border-radius: 12px; border: 1px solid #c7d2fe;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #3b82f6); color: #fff; font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);">
+          ${escapeHtml(initials)}
+        </div>
+        <div>
+          <h4 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">${escapeHtml(emp.full_name)}</h4>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="dept-code-tag">${escapeHtml(emp.department_name || 'Chưa xếp')}</span>
+            <span style="font-size: 0.82rem; color: #64748b; font-weight: 600;">${escapeHtml(emp.position || 'Nhân viên')}</span>
+          </div>
+        </div>
+      </div>
+      <div class="dossier-row"><span class="dossier-label"><i class="fa-solid fa-barcode text-muted"></i> Mã nhân viên:</span><span class="dossier-value"><span class="emp-code-pill">${escapeHtml(emp.code)}</span></span></div>
+      <div class="dossier-row"><span class="dossier-label"><i class="fa-solid fa-cake-candles text-muted"></i> Ngày sinh:</span><span class="dossier-value">${emp.birth_date ? emp.birth_date.split('T')[0] : 'Chưa cập nhật'}</span></div>
+      <div class="dossier-row"><span class="dossier-label"><i class="fa-solid fa-venus-mars text-muted"></i> Giới tính:</span><span class="dossier-value">${escapeHtml(emp.gender || 'Khác')}</span></div>
+      <div class="dossier-row"><span class="dossier-label"><i class="fa-solid fa-envelope text-muted"></i> Email:</span><span class="dossier-value">${escapeHtml(emp.email)}</span></div>
+      <div class="dossier-row"><span class="dossier-label"><i class="fa-solid fa-phone text-muted"></i> Số điện thoại:</span><span class="dossier-value">${escapeHtml(emp.phone || 'Chưa cập nhật')}</span></div>
+      <div class="dossier-row"><span class="dossier-label"><i class="fa-solid fa-location-dot text-muted"></i> Địa chỉ:</span><span class="dossier-value">${escapeHtml(emp.address || 'Chưa cập nhật')}</span></div>
+      <div class="dossier-row"><span class="dossier-label"><i class="fa-solid fa-calendar-check text-muted"></i> Ngày vào làm:</span><span class="dossier-value">${emp.joined_date ? emp.joined_date.split('T')[0] : 'N/A'}</span></div>
+      <div class="dossier-row"><span class="dossier-label"><i class="fa-solid fa-file-contract text-muted"></i> Loại hợp đồng:</span><span class="dossier-value">${escapeHtml(emp.contract_type || 'Toàn thời gian')}</span></div>
+      <div class="dossier-row"><span class="dossier-label"><i class="fa-solid fa-money-bill-wave text-muted"></i> Mức lương:</span><span class="dossier-value salary-tag">${formatMoney(emp.salary)}</span></div>
+      <div class="dossier-row"><span class="dossier-label"><i class="fa-solid fa-signal text-muted"></i> Trạng thái:</span><span class="dossier-value tag-status ${emp.status ? emp.status.toLowerCase() : 'active'}">${emp.status || 'ACTIVE'}</span></div>
     `;
 
     document.getElementById('emp-detail-modal').classList.add('open');
@@ -770,13 +807,13 @@ async function loadAttendance() {
       const statusClass = isLate ? 'late' : 'present';
 
       tr.innerHTML = `
-        <td><strong>${escapeHtml(att.employee_code)}</strong></td>
-        <td>${escapeHtml(att.employee_name)}</td>
+        <td><span class="emp-code-pill">${escapeHtml(att.employee_code)}</span></td>
+        <td><strong>${escapeHtml(att.employee_name)}</strong></td>
         <td><span class="dept-code-tag">${escapeHtml(att.department_name || 'N/A')}</span></td>
-        <td>${att.work_date ? att.work_date.split('T')[0] : 'N/A'}</td>
+        <td><i class="fa-regular fa-calendar text-muted"></i> ${att.work_date ? att.work_date.split('T')[0] : 'N/A'}</td>
         <td><span class="badge-status online"><i class="fa-regular fa-clock"></i> ${att.check_in || '--:--'}</span></td>
-        <td>${att.check_out ? `<span class="badge-status online"><i class="fa-regular fa-clock"></i> ${att.check_out}</span>` : '<span class="text-muted">Chưa check-out</span>'}</td>
-        <td><strong>${att.work_hours || 0}h</strong></td>
+        <td>${att.check_out ? `<span class="badge-status online"><i class="fa-regular fa-clock"></i> ${att.check_out}</span>` : '<span class="text-muted"><i class="fa-regular fa-circle-question"></i> Chưa out</span>'}</td>
+        <td><span class="salary-tag">${att.work_hours || 0}h</span></td>
         <td><span class="tag-status ${statusClass}">${statusText}</span></td>
         <td>${escapeHtml(att.notes || '-')}</td>
       `;

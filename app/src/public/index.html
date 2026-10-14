@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hệ thống Quản lý Nhân sự (HRM) - KTHP Đề 10</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Chart.js CDN for live dashboard charts -->
@@ -131,6 +134,7 @@
             <div class="stat-info">
               <span class="stat-label">Tổng Nhân viên</span>
               <h3 class="stat-value" id="stat-total-emp">0</h3>
+              <span style="font-size: 0.75rem; color: #64748b; font-weight: 500; margin-top: 2px;"><i class="fa-solid fa-arrow-trend-up text-green"></i> Toàn hệ thống</span>
             </div>
           </div>
           <div class="stat-card">
@@ -138,6 +142,7 @@
             <div class="stat-info">
               <span class="stat-label">Đang Hoạt động</span>
               <h3 class="stat-value" id="stat-active-emp">0</h3>
+              <span style="font-size: 0.75rem; color: #16a34a; font-weight: 500; margin-top: 2px;"><i class="fa-solid fa-circle-check"></i> Sẵn sàng làm việc</span>
             </div>
           </div>
           <div class="stat-card">
@@ -145,6 +150,7 @@
             <div class="stat-info">
               <span class="stat-label">Phòng ban</span>
               <h3 class="stat-value" id="stat-departments">0</h3>
+              <span style="font-size: 0.75rem; color: #8b5cf6; font-weight: 500; margin-top: 2px;"><i class="fa-solid fa-layer-group"></i> Cơ cấu tổ chức</span>
             </div>
           </div>
           <div class="stat-card">
@@ -152,6 +158,7 @@
             <div class="stat-info">
               <span class="stat-label">Chấm công hôm nay</span>
               <h3 class="stat-value" id="stat-attendances">0</h3>
+              <span style="font-size: 0.75rem; color: #d97706; font-weight: 500; margin-top: 2px;"><i class="fa-solid fa-clock-rotate-left"></i> Ghi nhận ca trực</span>
             </div>
           </div>
         </div>
@@ -161,6 +168,7 @@
           <div class="widget-card chart-card">
             <div class="card-header">
               <h3><i class="fa-solid fa-chart-pie"></i> Cơ cấu Nhân sự theo Phòng ban</h3>
+              <span class="tag-today" style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;"><i class="fa-solid fa-circle text-green" style="font-size: 6px;"></i> Live Data</span>
             </div>
             <div class="chart-container">
               <canvas id="chart-departments"></canvas>
@@ -170,6 +178,7 @@
           <div class="widget-card chart-card">
             <div class="card-header">
               <h3><i class="fa-solid fa-chart-simple"></i> Thống kê Chấm công 7 ngày gần nhất</h3>
+              <span class="tag-today" style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;"><i class="fa-solid fa-circle text-green" style="font-size: 6px;"></i> 7 Ngày</span>
             </div>
             <div class="chart-container">
               <canvas id="chart-attendance-week"></canvas>
