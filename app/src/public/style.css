@@ -212,16 +212,19 @@ body {
 }
 
 .login-split-card {
-  max-width: 880px;
+  width: 95%;
+  max-width: 1060px;
+  min-height: 540px;
   padding: 0;
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: 1.18fr 1fr;
   border: 1px solid var(--border);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .login-banner {
   position: relative;
-  min-height: 480px;
+  min-height: 540px;
   overflow: hidden;
   background: #090d16;
   display: flex;
@@ -245,27 +248,27 @@ body {
 .login-banner-overlay {
   position: relative;
   z-index: 2;
-  padding: 32px 28px;
+  padding: 36px 32px;
   background: linear-gradient(180deg, rgba(9, 13, 22, 0) 0%, rgba(9, 13, 22, 0.75) 45%, rgba(9, 13, 22, 0.95) 100%);
   color: #ffffff;
 }
 
 .login-banner-overlay h3 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: #ffffff;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .login-banner-overlay p {
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   color: #cbd5e1;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .login-form-container {
-  padding: 42px 36px;
+  padding: 48px 46px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -273,9 +276,9 @@ body {
 
 .login-welcome {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
-  margin-top: 6px;
+  margin-top: 8px;
   line-height: 1.4;
 }
 
@@ -2520,11 +2523,18 @@ body {
   .form-grid {
     grid-template-columns: 1fr;
   }
+}
+
+@media (max-width: 768px) {
   .login-split-card {
     grid-template-columns: 1fr;
-    max-width: 440px;
+    max-width: 520px;
+    width: 100%;
   }
   .login-banner {
-    min-height: 200px;
+    min-height: 240px;
+  }
+  .login-form-container {
+    padding: 36px 24px;
   }
 }
