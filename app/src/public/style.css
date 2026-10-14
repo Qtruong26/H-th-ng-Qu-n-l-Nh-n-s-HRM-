@@ -200,7 +200,7 @@ body {
 }
 
 .login-card {
-  background: #ffffff;
+  background: var(--bg-card);
   width: 100%;
   max-width: 450px;
   border-radius: var(--radius-xl);
@@ -314,7 +314,7 @@ body {
 
 .divider span {
   position: relative;
-  background: #ffffff;
+  background: var(--bg-card);
   padding: 0 12px;
   font-size: 0.72rem;
   font-weight: 700;
@@ -577,7 +577,7 @@ body {
 }
 
 .clock-badge {
-  background: #ffffff;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 7px 14px;
   border-radius: var(--radius-full);
@@ -621,7 +621,7 @@ body {
 
 /* Live Health Chip */
 .health-chip {
-  background: #ffffff;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 6px 14px;
   border-radius: var(--radius-full);
@@ -645,7 +645,7 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   color: var(--text-dark);
   font-size: 1rem;
@@ -673,7 +673,7 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   color: var(--text-dark);
   font-size: 1.05rem;
@@ -876,7 +876,7 @@ body {
   align-items: center;
   gap: 12px;
   padding: 4px 6px 4px 14px;
-  background: #ffffff;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-xs);
@@ -1188,7 +1188,7 @@ body {
 }
 
 .infra-list li:hover {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-color: var(--primary-border);
   transform: translateX(3px);
   box-shadow: var(--shadow-xs);
@@ -1258,7 +1258,7 @@ body {
 }
 
 .search-box {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 10px 16px;
@@ -1293,7 +1293,7 @@ body {
 }
 
 .filter-select {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 10px 16px;
@@ -1314,7 +1314,7 @@ body {
 
 /* Table Container & Table */
 .table-container {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
@@ -1444,7 +1444,7 @@ body {
   font-weight: 700;
   font-size: 0.88rem;
   padding: 6px 12px;
-  background: #ffffff;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--text-dark);
@@ -1502,7 +1502,7 @@ body {
 }
 
 .btn-outline {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border: 1px solid var(--border);
   color: var(--text-body);
   box-shadow: var(--shadow-xs);
@@ -1662,7 +1662,7 @@ body {
 }
 
 .dept-card {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
@@ -1741,7 +1741,7 @@ body {
 /* ---------- 12. TAB 5: MONITORING & DEVOPS LOGS ---------- */
 .monitoring-intro {
   margin-bottom: 26px;
-  background: #ffffff;
+  background: var(--bg-card);
   padding: 22px 26px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
@@ -1769,7 +1769,7 @@ body {
 }
 
 .monitor-box {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
@@ -1926,7 +1926,7 @@ body {
 }
 
 .modal-box {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: var(--radius-xl);
   box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35);
   width: 100%;
@@ -1936,7 +1936,7 @@ body {
   padding: 32px;
   transform: translateY(16px) scale(0.97);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border);
 }
 
 .modal-box.modal-lg {
@@ -2028,7 +2028,7 @@ body {
   font-size: 0.9rem;
   outline: none;
   transition: all var(--transition-normal);
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   width: 100%;
   color: var(--text-dark);
   font-family: inherit;
@@ -2167,15 +2167,51 @@ body {
 .text-muted { color: var(--text-muted); }
 
 /* ---------- DARK MODE COMPONENT OVERRIDES ---------- */
+/* Dossier Header in Modal */
+.dossier-header-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.08));
+  border-radius: 12px;
+  border: 1px solid var(--primary-border);
+}
+
+.dossier-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+  flex-shrink: 0;
+}
+
+.dossier-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 2px;
+}
+
+/* ---------- DARK MODE COMPONENT OVERRIDES ---------- */
 [data-theme="dark"] body {
   background-color: var(--bg-main);
   background-image: 
     radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 60%),
     radial-gradient(at 0% 100%, rgba(14, 165, 233, 0.05) 0px, transparent 60%);
+  color: var(--text-body);
 }
 
 [data-theme="dark"] .topbar {
-  background: rgba(15, 23, 42, 0.88);
+  background: rgba(15, 23, 42, 0.92);
   border-bottom: 1px solid var(--border);
 }
 
@@ -2184,55 +2220,126 @@ body {
 [data-theme="dark"] .btn-theme-toggle,
 [data-theme="dark"] .btn-notification,
 [data-theme="dark"] .user-profile-menu {
-  background: #0f172a;
+  background: var(--bg-card);
   border-color: var(--border);
-  color: #f8fafc;
+  color: var(--text-dark);
+}
+
+[data-theme="dark"] .user-name {
+  color: var(--text-dark);
 }
 
 [data-theme="dark"] .btn-logout {
   background: #1e293b;
   border-color: var(--border);
+  color: var(--text-muted);
 }
 
 [data-theme="dark"] .search-box,
 [data-theme="dark"] .filter-select {
-  background: #0f172a;
+  background-color: var(--bg-card);
   border-color: var(--border);
-  color: #f8fafc;
+  color: var(--text-dark);
 }
 
 [data-theme="dark"] .search-box input {
-  color: #f8fafc;
+  color: var(--text-dark);
   background: transparent;
+}
+
+[data-theme="dark"] .search-box input::placeholder {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .telemetry-item {
+  background-color: var(--bg-card);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .telemetry-val {
+  color: var(--text-dark);
+}
+
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .widget-card,
+[data-theme="dark"] .chart-card,
+[data-theme="dark"] .dept-card,
+[data-theme="dark"] .monitor-box,
+[data-theme="dark"] .monitoring-intro,
+[data-theme="dark"] .table-container {
+  background-color: var(--bg-card);
+  border-color: var(--border);
+  color: var(--text-body);
+}
+
+[data-theme="dark"] .dept-card-title,
+[data-theme="dark"] .card-header h3,
+[data-theme="dark"] .monitor-box h4,
+[data-theme="dark"] .monitoring-intro h3 {
+  color: var(--text-dark);
+}
+
+[data-theme="dark"] .dept-desc,
+[data-theme="dark"] .monitor-box p,
+[data-theme="dark"] .monitoring-intro p {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .dept-members {
+  color: var(--text-dark);
+}
+
+[data-theme="dark"] .dept-card-footer {
+  border-top-color: var(--border);
+}
+
+[data-theme="dark"] .infra-list li {
+  background-color: var(--bg-main);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .infra-list li:hover {
+  background-color: #1e293b;
+  border-color: var(--primary-border);
 }
 
 [data-theme="dark"] .data-table th {
   background-color: #0b0f19;
   border-bottom-color: var(--border);
+  color: var(--text-muted);
 }
 
 [data-theme="dark"] .data-table td {
   border-bottom-color: var(--border);
+  color: var(--text-body);
 }
 
 [data-theme="dark"] .data-table tbody tr:hover td {
   background-color: #1e293b;
 }
 
+[data-theme="dark"] .user-cell-name {
+  color: var(--text-dark);
+}
+
+[data-theme="dark"] .salary-tag {
+  color: var(--text-dark);
+}
+
 [data-theme="dark"] .page-current {
-  background: #0f172a;
+  background: var(--bg-card);
   border-color: var(--border);
-  color: #f8fafc;
+  color: var(--text-dark);
 }
 
 [data-theme="dark"] .btn-outline {
-  background: #0f172a;
+  background-color: var(--bg-card);
   border-color: var(--border);
-  color: #cbd5e1;
+  color: var(--text-body);
 }
 
 [data-theme="dark"] .btn-outline:hover:not(:disabled) {
-  background: #1e293b;
+  background-color: #1e293b;
   border-color: #475569;
   color: #ffffff;
 }
@@ -2243,12 +2350,17 @@ body {
 [data-theme="dark"] .form-group textarea {
   background-color: #0b0f19;
   border-color: var(--border);
-  color: #f8fafc;
+  color: var(--text-dark);
 }
 
 [data-theme="dark"] .modal-box {
-  background-color: #0f172a;
+  background-color: var(--bg-card);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-body);
+}
+
+[data-theme="dark"] .modal-header h3 {
+  color: var(--text-dark);
 }
 
 [data-theme="dark"] .dossier-row {
@@ -2256,9 +2368,8 @@ body {
   border-color: var(--border);
 }
 
-[data-theme="dark"] .monitoring-intro {
-  background-color: #0f172a;
-  border-color: var(--border);
+[data-theme="dark"] .dossier-value {
+  color: var(--text-dark);
 }
 
 [data-theme="dark"] .notif-item {
@@ -2266,20 +2377,29 @@ body {
   border-color: var(--border);
 }
 
+[data-theme="dark"] .notif-title {
+  color: var(--text-dark);
+}
+
 [data-theme="dark"] .login-card {
-  background: #0f172a;
+  background: var(--bg-card);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+[data-theme="dark"] .login-header h2 {
+  color: var(--text-dark);
+}
+
 [data-theme="dark"] .divider span {
-  background: #0f172a;
+  background: var(--bg-card);
+  color: var(--text-muted);
 }
 
 [data-theme="dark"] .btn-demo-admin,
 [data-theme="dark"] .btn-demo-user {
   background: #0b0f19;
   border-color: var(--border);
-  color: #f8fafc;
+  color: var(--text-dark);
 }
 
 

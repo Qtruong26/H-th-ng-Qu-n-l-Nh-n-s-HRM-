@@ -796,15 +796,15 @@ async function viewEmployeeDetail(id) {
     const dossier = document.getElementById('emp-dossier-content');
     const initials = (emp.full_name || 'NV').slice(0, 2).toUpperCase();
     dossier.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px; padding: 14px; background: linear-gradient(135deg, #eef2ff, #f0fdf4); border-radius: 12px; border: 1px solid #c7d2fe;">
-        <div style="width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #3b82f6); color: #fff; font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);">
+      <div class="dossier-header-card">
+        <div class="dossier-avatar">
           ${escapeHtml(initials)}
         </div>
         <div>
-          <h4 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 2px;">${escapeHtml(emp.full_name)}</h4>
+          <h4 class="dossier-name">${escapeHtml(emp.full_name)}</h4>
           <div style="display: flex; align-items: center; gap: 8px;">
             <span class="dept-code-tag">${escapeHtml(emp.department_name || 'Chưa xếp')}</span>
-            <span style="font-size: 0.82rem; color: #64748b; font-weight: 600;">${escapeHtml(emp.position || 'Nhân viên')}</span>
+            <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;">${escapeHtml(emp.position || 'Nhân viên')}</span>
           </div>
         </div>
       </div>
