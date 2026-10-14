@@ -91,6 +91,51 @@
   --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ---------- DARK THEME TOKENS ---------- */
+[data-theme="dark"] {
+  --bg-main: #070a12;
+  --bg-canvas-subtle: #0d121f;
+  --bg-card: #0f172a;
+  --bg-card-hover: #1e293b;
+  --border: #1e293b;
+  --border-light: #162032;
+  --border-focus: #6366f1;
+
+  --text-dark: #f8fafc;
+  --text-body: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+
+  --primary-light: rgba(99, 102, 241, 0.16);
+  --primary-border: rgba(99, 102, 241, 0.35);
+
+  --success-bg: rgba(16, 185, 129, 0.14);
+  --success-border: rgba(16, 185, 129, 0.3);
+  --success-text: #34d399;
+
+  --warning-bg: rgba(245, 158, 11, 0.14);
+  --warning-border: rgba(245, 158, 11, 0.3);
+  --warning-text: #fbbf24;
+
+  --danger-bg: rgba(239, 68, 68, 0.14);
+  --danger-border: rgba(239, 68, 68, 0.3);
+  --danger-text: #f87171;
+
+  --info-bg: rgba(14, 165, 233, 0.14);
+  --info-border: rgba(14, 165, 233, 0.3);
+  --info-text: #38bdf8;
+
+  --purple-bg: rgba(139, 92, 246, 0.14);
+  --purple-border: rgba(139, 92, 246, 0.3);
+  --purple-text: #a78bfa;
+
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 4px -1px rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.6), 0 2px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.7), 0 4px 10px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 32px -8px rgba(0, 0, 0, 0.8), 0 8px 16px -4px rgba(0, 0, 0, 0.5);
+}
+
 /* ---------- 2. BASE RESET & GLOBAL STYLES ---------- */
 *, *::before, *::after {
   margin: 0;
@@ -572,6 +617,257 @@ body {
   color: #ffffff;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+/* Live Health Chip */
+.health-chip {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-body);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-xs);
+  font-family: var(--font-mono);
+}
+
+.health-chip .status-indicator {
+  width: 7px;
+  height: 7px;
+}
+
+/* Theme Toggle Button */
+.btn-theme-toggle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  color: var(--text-dark);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-normal);
+}
+
+.btn-theme-toggle:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: rotate(20deg) scale(1.08);
+}
+
+/* Notification Dropdown */
+.notification-dropdown-wrapper {
+  position: relative;
+}
+
+.btn-notification {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  color: var(--text-dark);
+  font-size: 1.05rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-normal);
+}
+
+.btn-notification:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.notification-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: var(--danger);
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 6px var(--danger);
+}
+
+.notification-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: -20px;
+  width: 330px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: 16px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all var(--transition-normal);
+}
+
+.notification-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.notification-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.notification-header h4 {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-new {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+}
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notif-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  transition: all var(--transition-fast);
+}
+
+.notif-item:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-border);
+}
+
+.notif-item.unread {
+  border-left: 3px solid var(--primary);
+}
+
+.notif-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.notif-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.notif-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.3;
+}
+
+.notif-time {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* DevOps Real-time Telemetry Banner */
+.telemetry-banner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.telemetry-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-normal);
+}
+
+.telemetry-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--primary-border);
+}
+
+.telemetry-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.telemetry-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.telemetry-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.telemetry-val {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  font-family: var(--font-mono);
 }
 
 /* User Profile Chip */
@@ -1869,6 +2165,123 @@ body {
 .text-amber { color: #d97706; }
 .text-orange { color: #ea580c; }
 .text-muted { color: var(--text-muted); }
+
+/* ---------- DARK MODE COMPONENT OVERRIDES ---------- */
+[data-theme="dark"] body {
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 60%),
+    radial-gradient(at 0% 100%, rgba(14, 165, 233, 0.05) 0px, transparent 60%);
+}
+
+[data-theme="dark"] .topbar {
+  background: rgba(15, 23, 42, 0.88);
+  border-bottom: 1px solid var(--border);
+}
+
+[data-theme="dark"] .clock-badge,
+[data-theme="dark"] .health-chip,
+[data-theme="dark"] .btn-theme-toggle,
+[data-theme="dark"] .btn-notification,
+[data-theme="dark"] .user-profile-menu {
+  background: #0f172a;
+  border-color: var(--border);
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .btn-logout {
+  background: #1e293b;
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .search-box,
+[data-theme="dark"] .filter-select {
+  background: #0f172a;
+  border-color: var(--border);
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .search-box input {
+  color: #f8fafc;
+  background: transparent;
+}
+
+[data-theme="dark"] .data-table th {
+  background-color: #0b0f19;
+  border-bottom-color: var(--border);
+}
+
+[data-theme="dark"] .data-table td {
+  border-bottom-color: var(--border);
+}
+
+[data-theme="dark"] .data-table tbody tr:hover td {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .page-current {
+  background: #0f172a;
+  border-color: var(--border);
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .btn-outline {
+  background: #0f172a;
+  border-color: var(--border);
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .btn-outline:hover:not(:disabled) {
+  background: #1e293b;
+  border-color: #475569;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+  background-color: #0b0f19;
+  border-color: var(--border);
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .modal-box {
+  background-color: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .dossier-row {
+  background-color: #0b0f19;
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .monitoring-intro {
+  background-color: #0f172a;
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .notif-item {
+  background-color: #0b0f19;
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .login-card {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .divider span {
+  background: #0f172a;
+}
+
+[data-theme="dark"] .btn-demo-admin,
+[data-theme="dark"] .btn-demo-user {
+  background: #0b0f19;
+  border-color: var(--border);
+  color: #f8fafc;
+}
+
 
 /* ---------- 18. RESPONSIVE BREAKPOINTS ---------- */
 @media (max-width: 1024px) {

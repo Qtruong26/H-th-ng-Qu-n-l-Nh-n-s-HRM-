@@ -25,6 +25,8 @@ const viewTitles = {
 // Khởi chạy ứng dụng
 document.addEventListener('DOMContentLoaded', () => {
   setupAuth();
+  setupTheme();
+  setupNotifications();
   setupNavigation();
   setupLiveClock();
   setupModals();
@@ -307,14 +309,24 @@ async function loadAllData() {
 // =================== 4. DASHBOARD & BIỂU ĐỒ ===================
 async function loadDashboardStats() {
   try {
+    const t0 = performance.now();
     const res = await authFetch('/api/stats');
+    const t1 = performance.now();
+    const latencyMs = Math.max(1, Math.round(t1 - t0));
+    
+    const liveLatencyEl = document.getElementById('live-latency');
+    if (liveLatencyEl) liveLatencyEl.innerText = `${latencyMs}ms`;
+    const telemetryLatencyEl = document.getElementById('telemetry-latency');
+    if (telemetryLatencyEl) telemetryLatencyEl.innerText = `~${latencyMs}ms (Scraped)`;
+
     if (!res.ok) throw new Error('Không thể tải dữ liệu thống kê');
     const data = await res.json();
 
-    document.getElementById('stat-total-emp').innerText = data.totalEmployees || 0;
-    document.getElementById('stat-active-emp').innerText = data.activeEmployees || 0;
-    document.getElementById('stat-departments').innerText = data.totalDepartments || 0;
-    document.getElementById('stat-attendances').innerText = data.attendancesToday || 0;
+    // Hiệu ứng nhảy số tự động (Animated Counter)
+    animateNumber('stat-total-emp', data.totalEmployees || 0);
+    animateNumber('stat-active-emp', data.activeEmployees || 0);
+    animateNumber('stat-departments', data.totalDepartments || 0);
+    animateNumber('stat-attendances', data.attendancesToday || 0);
 
     // Vẽ biểu đồ Chart.js
     if (window.Chart) {
@@ -332,6 +344,10 @@ async function loadDashboardStats() {
 function renderDepartmentChart(distribution) {
   const canvas = document.getElementById('chart-departments');
   if (!canvas) return;
+
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const textColor = isDark ? '#cbd5e1' : '#475569';
+  const borderColor = isDark ? '#0f172a' : '#ffffff';
 
   const labels = distribution.map(d => d.name);
   const dataVals = distribution.map(d => parseInt(d.count));
@@ -351,14 +367,21 @@ function renderDepartmentChart(distribution) {
           '#4f46e5', '#06b6d4', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'
         ],
         borderWidth: 2,
-        borderColor: '#ffffff'
+        borderColor: borderColor
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+        legend: {
+          position: 'bottom',
+          labels: {
+            boxWidth: 12,
+            font: { size: 11, family: "'Plus Jakarta Sans', sans-serif" },
+            color: textColor
+          }
+        }
       }
     }
   });
@@ -367,6 +390,10 @@ function renderDepartmentChart(distribution) {
 function renderAttendanceChart(weekSummary) {
   const canvas = document.getElementById('chart-attendance-week');
   if (!canvas) return;
+
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const textColor = isDark ? '#cbd5e1' : '#475569';
+  const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : '#e2e8f0';
 
   const labels = weekSummary.map(w => w.date_label);
   const presentData = weekSummary.map(w => parseInt(w.present_count));
@@ -386,13 +413,13 @@ function renderAttendanceChart(weekSummary) {
           label: 'Đúng giờ',
           data: presentData,
           backgroundColor: '#10b981',
-          borderRadius: 4
+          borderRadius: 6
         },
         {
           label: 'Đi muộn',
           data: lateData,
           backgroundColor: '#f59e0b',
-          borderRadius: 4
+          borderRadius: 6
         }
       ]
     },
@@ -400,13 +427,100 @@ function renderAttendanceChart(weekSummary) {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        y: { beginAtZero: true, ticks: { stepSize: 1 } }
+        x: {
+          ticks: { color: textColor, font: { family: "'Plus Jakarta Sans', sans-serif" } },
+          grid: { display: false }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1, color: textColor, font: { family: "'Plus Jakarta Sans', sans-serif" } },
+          grid: { color: gridColor }
+        }
       },
       plugins: {
-        legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } }
+        legend: {
+          position: 'top',
+          labels: {
+            boxWidth: 12,
+            font: { size: 11, family: "'Plus Jakarta Sans', sans-serif" },
+            color: textColor
+          }
+        }
       }
     }
   });
+}
+
+// =================== TIỆN ÍCH HIỆU ỨNG & THEME ===================
+function animateNumber(elementId, targetValue, duration = 800) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const target = parseInt(targetValue) || 0;
+  if (target === 0) { el.innerText = '0'; return; }
+  const startTime = performance.now();
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easeOut = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(target * easeOut);
+    el.innerText = current;
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      el.innerText = target;
+    }
+  }
+  requestAnimationFrame(update);
+}
+
+function setupTheme() {
+  const savedTheme = localStorage.getItem('hrm_theme') || 'light';
+  applyTheme(savedTheme, false);
+
+  const btnTheme = document.getElementById('btn-theme-toggle');
+  if (btnTheme) {
+    btnTheme.addEventListener('click', () => {
+      const activeTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(newTheme, true);
+    });
+  }
+}
+
+function applyTheme(theme, notify = false) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('hrm_theme', theme);
+  const btnTheme = document.getElementById('btn-theme-toggle');
+  if (btnTheme) {
+    btnTheme.innerHTML = theme === 'dark' 
+      ? '<i class="fa-solid fa-sun" style="color: #f59e0b;"></i>' 
+      : '<i class="fa-solid fa-moon"></i>';
+    btnTheme.setAttribute('title', theme === 'dark' ? 'Chuyển sang chế độ Sáng' : 'Chuyển sang chế độ Tối (Dark Mode)');
+  }
+  if (notify) {
+    showToast(`Đã chuyển sang giao diện ${theme === 'dark' ? 'Tối (Dark Mode)' : 'Sáng (Light Mode)'}!`, 'info');
+  }
+  // Re-draw charts with theme color palette
+  if (window.Chart && deptChartInstance) {
+    loadDashboardStats();
+  }
+}
+
+function setupNotifications() {
+  const btn = document.getElementById('btn-notifications');
+  const menu = document.getElementById('notification-menu');
+  if (btn && menu) {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
+  }
 }
 
 function renderRecentEmployees(recentList) {

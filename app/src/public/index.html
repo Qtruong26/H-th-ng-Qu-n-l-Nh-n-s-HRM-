@@ -101,6 +101,12 @@
       </div>
 
       <div class="topbar-actions">
+        <!-- Live DevOps Latency Badge -->
+        <div class="health-chip" title="Thời gian phản hồi API">
+          <span class="status-indicator"></span>
+          <span>API: <strong id="live-latency">12ms</strong></span>
+        </div>
+
         <div class="clock-badge">
           <i class="fa-regular fa-clock"></i>
           <span id="live-clock">--:--:--</span>
@@ -109,6 +115,48 @@
         <a href="/metrics" target="_blank" class="badge-link">
           <i class="fa-solid fa-chart-line"></i> /metrics
         </a>
+
+        <!-- Dark / Light Mode Toggle Button -->
+        <button id="btn-theme-toggle" class="btn-theme-toggle" title="Chuyển chế độ Sáng / Tối (Dark Mode)">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <!-- Notification Bell Dropdown -->
+        <div class="notification-dropdown-wrapper">
+          <button id="btn-notifications" class="btn-notification" title="Thông báo hệ thống">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-badge">3</span>
+          </button>
+          <div id="notification-menu" class="notification-menu">
+            <div class="notification-header">
+              <h4><i class="fa-solid fa-bell"></i> Thông báo DevOps & HRM</h4>
+              <span class="badge-new">Mới</span>
+            </div>
+            <div class="notification-list">
+              <div class="notif-item unread">
+                <div class="notif-icon icon-blue"><i class="fa-solid fa-server"></i></div>
+                <div class="notif-content">
+                  <span class="notif-title">Prometheus cào Metrics thành công</span>
+                  <span class="notif-time">Vừa xong • HTTP 200</span>
+                </div>
+              </div>
+              <div class="notif-item unread">
+                <div class="notif-icon icon-green"><i class="fa-solid fa-fingerprint"></i></div>
+                <div class="notif-content">
+                  <span class="notif-title">Nhân viên An Nguyễn đã Check-In</span>
+                  <span class="notif-time">08:05:12 • Đúng giờ</span>
+                </div>
+              </div>
+              <div class="notif-item">
+                <div class="notif-icon icon-purple"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="notif-content">
+                  <span class="notif-title">Nginx SSL/TLS Certificate Valid</span>
+                  <span class="notif-time">Port 443 HTTPS an toàn</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- User Profile & Logout -->
         <div class="user-profile-menu">
@@ -128,6 +176,38 @@
     <div class="content-body">
       <!-- 1. DASHBOARD TAB -->
       <section id="tab-dashboard" class="tab-pane active">
+        <!-- DevOps Real-time Telemetry Banner -->
+        <div class="telemetry-banner">
+          <div class="telemetry-item">
+            <div class="telemetry-icon icon-blue"><i class="fa-brands fa-node-js"></i></div>
+            <div class="telemetry-details">
+              <span class="telemetry-label">Runtime Engine</span>
+              <span class="telemetry-val">Node.js 20 (Non-root)</span>
+            </div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-icon icon-green"><i class="fa-solid fa-database"></i></div>
+            <div class="telemetry-details">
+              <span class="telemetry-label">PostgreSQL 16</span>
+              <span class="telemetry-val">Connection Pool: Active</span>
+            </div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-icon icon-amber"><i class="fa-solid fa-gauge-high"></i></div>
+            <div class="telemetry-details">
+              <span class="telemetry-label">Prometheus Exporter</span>
+              <span class="telemetry-val">:9090 (Auto-scraped)</span>
+            </div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-icon icon-purple"><i class="fa-solid fa-lock"></i></div>
+            <div class="telemetry-details">
+              <span class="telemetry-label">Bảo mật RBAC</span>
+              <span class="telemetry-val">JWT Token + HTTPS</span>
+            </div>
+          </div>
+        </div>
+
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-icon icon-blue"><i class="fa-solid fa-users"></i></div>
