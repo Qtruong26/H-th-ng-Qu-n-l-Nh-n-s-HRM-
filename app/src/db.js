@@ -85,7 +85,26 @@ async function initDB() {
         );
       `);
 
-      // 5. Tạo Indexes tối ưu hóa truy vấn
+      // 5. Tự động kiểm tra và thêm các cột cần thiết nếu DB đã khởi tạo từ trước (Auto Migration)
+      await client.query(`
+        ALTER TABLE employees ADD COLUMN IF NOT EXISTS birth_date DATE;
+        ALTER TABLE employees ADD COLUMN IF NOT EXISTS gender VARCHAR(20) DEFAULT 'Khác';
+        ALTER TABLE employees ADD COLUMN IF NOT EXISTS address TEXT;
+        ALTER TABLE employees ADD COLUMN IF NOT EXISTS contract_type VARCHAR(100) DEFAULT 'Toàn thời gian';
+        ALTER TABLE employees ADD COLUMN IF NOT EXISTS salary NUMERIC(14, 2) DEFAULT 0;
+        ALTER TABLE employees ADD COLUMN IF NOT EXISTS joined_date DATE DEFAULT CURRENT_DATE;
+        ALTER TABLE employees ADD COLUMN IF NOT EXISTS status VARCHAR(50) DEFAULT 'ACTIVE';
+        ALTER TABLE employees ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP;
+
+        ALTER TABLE attendances ADD COLUMN IF NOT EXISTS work_hours NUMERIC(5, 2) DEFAULT 0;
+        ALTER TABLE attendances ADD COLUMN IF NOT EXISTS status VARCHAR(50) DEFAULT 'PRESENT';
+        ALTER TABLE attendances ADD COLUMN IF NOT EXISTS notes TEXT;
+        ALTER TABLE attendances ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP;
+
+        ALTER TABLE users ADD COLUMN IF NOT EXISTS last_login TIMESTAMP WITH TIME ZONE;
+      `);
+
+      // 6. Tạo Indexes tối ưu hóa truy vấn
       await client.query(`
         CREATE INDEX IF NOT EXISTS idx_employees_code ON employees(code);
         CREATE INDEX IF NOT EXISTS idx_employees_email ON employees(email);

@@ -706,6 +706,10 @@ async function loadEmployees() {
     const res = await authFetch(url);
     const result = await res.json();
 
+    if (!res.ok) {
+      throw new Error(result.error || 'Lỗi tải danh sách nhân viên từ máy chủ');
+    }
+
     employees = result.data || [];
     empPagination = result.pagination || empPagination;
 
@@ -714,6 +718,7 @@ async function loadEmployees() {
     populateQuickAttendanceSelect();
   } catch (err) {
     console.error('Employees error:', err);
+    showToast(err.message, 'error');
   }
 }
 

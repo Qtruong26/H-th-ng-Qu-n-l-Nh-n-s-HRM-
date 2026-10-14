@@ -414,19 +414,19 @@ app.get('/api/employees', optionalAuthenticate, async (req, res) => {
     `;
     const params = [];
 
-    if (department_id) {
-      params.push(department_id);
+    if (department_id && !isNaN(parseInt(department_id))) {
+      params.push(parseInt(department_id));
       countQuery += ` AND e.department_id = $${params.length}`;
       dataQuery += ` AND e.department_id = $${params.length}`;
     }
 
-    if (status) {
-      params.push(status);
+    if (status && status.trim() !== '') {
+      params.push(status.trim());
       countQuery += ` AND e.status = $${params.length}`;
       dataQuery += ` AND e.status = $${params.length}`;
     }
 
-    if (search) {
+    if (search && search.trim() !== '') {
       params.push(`%${search.trim()}%`);
       const searchClause = ` AND (e.full_name ILIKE $${params.length} OR e.code ILIKE $${params.length} OR e.email ILIKE $${params.length})`;
       countQuery += searchClause;
