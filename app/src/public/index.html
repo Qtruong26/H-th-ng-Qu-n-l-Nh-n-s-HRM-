@@ -14,49 +14,123 @@
 </head>
 <body>
 
-  <!-- LOGIN FULL-SCREEN PAGE -->
+  <!-- LOGIN FULL-SCREEN PAGE (SPLIT-SCREEN THEO PHONG CÁCH HIỆN ĐẠI) -->
   <div id="login-overlay" class="login-overlay">
-    <div class="login-card login-split-card">
-      <!-- Cột ảnh minh họa Nhân sự full chiều cao -->
+    <div class="login-split-card">
+      
+      <!-- CỘT TRÁI: HERO BANNER TỐI MÀU VỚI TYPOGRAPHY & ĐIỂM NHẤN XANH LIME NEON -->
       <div class="login-banner">
         <img src="hrm_login_hero.jpg" alt="HRM Talent & Personnel Portal" class="login-hero-img">
-        <div class="login-banner-overlay">
-          <div class="login-banner-badge">
-            <i class="fa-solid fa-shield-halved"></i> Enterprise HRM Portal
+        <div class="login-banner-gradient-overlay"></div>
+        
+        <div class="login-banner-content">
+          <!-- Top Brand Badge -->
+          <div class="login-banner-top">
+            <div class="login-brand-pill">
+              <span class="brand-pill-icon"><i class="fa-solid fa-bars-staggered"></i></span>
+              <span class="brand-pill-text">QUẢN TRỊ NHÂN SỰ</span>
+            </div>
           </div>
-          <h3>Quản lý Nhân tài & Hiệu suất Toàn diện</h3>
-          <p>Nền tảng số hóa quản trị nhân sự, theo dõi hiệu suất, chấm công thông minh và bảo mật dữ liệu tập trung cho doanh nghiệp.</p>
+
+          <!-- Middle Typography -->
+          <div class="login-banner-center">
+            <div class="banner-eyebrow">QUẢN TRỊ MINH BẠCH • TƯƠNG LAI VỮNG VÀNG</div>
+            <h1 class="banner-heading">
+              Để từng nhân sự<br>
+              <span class="banner-heading-highlight">đều phát huy tối đa.</span>
+            </h1>
+            <p class="banner-description">
+              Theo dõi hồ sơ, kiểm soát chấm công và tiến gần hơn đến những mục tiêu tăng trưởng quan trọng của doanh nghiệp.
+            </p>
+          </div>
+
+          <!-- Bottom 3 Highlight Features -->
+          <div class="login-banner-features">
+            <div class="banner-feature-item">
+              <span class="feature-num">01</span>
+              <div class="feature-text">
+                <strong>Dữ liệu riêng</strong>
+                <span>theo từng tài khoản</span>
+              </div>
+            </div>
+            <div class="banner-feature-item">
+              <span class="feature-num">02</span>
+              <div class="feature-text">
+                <strong>Theo dõi nhân sự</strong>
+                <span>thời gian thực</span>
+              </div>
+            </div>
+            <div class="banner-feature-item">
+              <span class="feature-num">03</span>
+              <div class="feature-text">
+                <strong>Báo cáo rõ ràng</strong>
+                <span>chuẩn doanh nghiệp</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Cột Form đăng nhập full chiều cao -->
+      <!-- CỘT PHẢI: KHÔNG GIAN SÁNG VỚI FLOATING CARD BO TRÒN HIỆN ĐẠI -->
       <div class="login-form-container">
-        <div class="login-form-inner">
-          <div class="login-header">
-            <div class="login-brand-icon">
-              <i class="fa-solid fa-users-gear"></i>
-            </div>
-            <h2>HỆ THỐNG QUẢN LÝ NHÂN SỰ</h2>
-            <span class="login-welcome">Vui lòng đăng nhập để truy cập hệ thống</span>
+        <div class="login-card-floating">
+          
+          <div class="login-card-header">
+            <h2 class="login-title">Chào mừng trở lại</h2>
+            <p class="login-subtitle-text">Đăng nhập để tiếp tục quản lý nhân sự</p>
+          </div>
+
+          <div class="login-tab-container">
+            <div class="login-tab-pill active">Đăng nhập</div>
           </div>
 
           <div id="login-error-alert" class="alert-error" style="display: none;"></div>
 
           <form id="login-form">
-            <div class="form-group">
-              <label><i class="fa-solid fa-user"></i> Tên đăng nhập</label>
-              <input type="text" id="login-username" class="form-control" required placeholder="Nhập tên đăng nhập">
+            <!-- Tên đăng nhập -->
+            <div class="pill-input-group">
+              <input type="text" id="login-username" class="pill-input" required placeholder="Địa chỉ Email hoặc Tên đăng nhập" autocomplete="username">
             </div>
-            <div class="form-group">
-              <label><i class="fa-solid fa-lock"></i> Mật khẩu</label>
-              <input type="password" id="login-password" class="form-control" required placeholder="Nhập mật khẩu">
+
+            <!-- Mật khẩu với nút Hiện / Ẩn -->
+            <div class="pill-input-group password-group">
+              <input type="password" id="login-password" class="pill-input" required placeholder="Mật khẩu" autocomplete="current-password">
+              <button type="button" class="btn-toggle-password" id="btn-toggle-password" aria-label="Hiện hoặc ẩn mật khẩu">Hiện</button>
             </div>
-            <button type="submit" class="btn btn-primary btn-block" id="btn-login-submit">
-              <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập hệ thống
+
+            <!-- Trạng thái đăng nhập an toàn -->
+            <div class="login-options-row">
+              <span class="secure-badge">
+                <i class="fa-solid fa-shield-halved"></i> Đăng nhập an toàn
+              </span>
+            </div>
+
+            <!-- Nút submit bo tròn màu đen đậm -->
+            <button type="submit" class="btn-pill-submit" id="btn-login-submit">
+              Đăng nhập
             </button>
+
+            <!-- Quick accounts selector -->
+            <div class="quick-login-pills">
+              <span class="quick-title">Tài khoản demo:</span>
+              <div class="quick-buttons">
+                <button type="button" class="quick-btn-chip" id="btn-quick-admin">
+                  <i class="fa-solid fa-shield"></i> Admin
+                </button>
+                <button type="button" class="quick-btn-chip" id="btn-quick-user-an">
+                  <i class="fa-solid fa-user"></i> Nhân viên (An)
+                </button>
+              </div>
+            </div>
           </form>
         </div>
+
+        <!-- Chân trang bảo mật bên ngoài card -->
+        <div class="login-security-footer">
+          Dữ liệu nhân sự được tách riêng và bảo mật theo từng tài khoản.
+        </div>
       </div>
+
     </div>
   </div>
 

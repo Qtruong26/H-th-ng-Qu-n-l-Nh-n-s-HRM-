@@ -75,6 +75,17 @@ function setupAuth() {
     });
   }
 
+  const btnTogglePwd = document.getElementById('btn-toggle-password');
+  const loginPwdInput = document.getElementById('login-password');
+  if (btnTogglePwd && loginPwdInput) {
+    btnTogglePwd.addEventListener('click', () => {
+      const isPassword = loginPwdInput.type === 'password';
+      loginPwdInput.type = isPassword ? 'text' : 'password';
+      btnTogglePwd.textContent = isPassword ? 'Ẩn' : 'Hiện';
+      btnTogglePwd.setAttribute('aria-label', isPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu');
+    });
+  }
+
   if (btnLogout) {
     btnLogout.addEventListener('click', () => {
       logout();
