@@ -74,6 +74,7 @@ services:
       LOG_DIR: /var/log/app
     volumes:
       - app_logs:/var/log/app
+      - ./app/src/public:/usr/src/app/src/public:ro
     depends_on:
       postgres:
         condition: service_healthy

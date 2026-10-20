@@ -185,44 +185,50 @@ body {
   color: var(--primary);
 }
 
-/* ---------- 3. RECRUITMENT PORTAL FULL-SCREEN LOGIN (CHUẨN WEB TUYỂN DỤNG HÀNG ĐẦU) ---------- */
+/* ---------- 3. RECRUITMENT PORTAL FULL-SCREEN LOGIN (CHUẨN TOPCV EMPLOYER & VIETNAMWORKS) ---------- */
 .login-overlay.recruitment-portal-theme {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: #080e1a;
+  background: #f4f6fa;
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(0, 177, 79, 0.05) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(14, 165, 233, 0.04) 0px, transparent 50%);
   z-index: 9999;
   display: flex;
   flex-direction: column;
   padding: 0;
   margin: 0;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: var(--font-sans);
+  color: #1e293b;
 }
 
-/* TOP GLOBAL NAVIGATION BAR CỦA CỔNG TUYỂN DỤNG */
+/* TOP NAVBAR CHUẨN CỔNG NHÀ TUYỂN DỤNG */
 .recruitment-top-nav {
-  height: 64px;
+  height: 68px;
   width: 100%;
-  background: rgba(10, 17, 32, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 0 48px;
   box-sizing: border-box;
   z-index: 100;
   flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  position: sticky;
+  top: 0;
 }
 
 .recruit-nav-left {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 36px;
 }
 
 .recruit-logo-box {
@@ -237,418 +243,362 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #00b14f 0%, #0ea5e9 100%);
+  background: linear-gradient(135deg, #00b14f 0%, #009643 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.15rem;
-  position: relative;
-  box-shadow: 0 0 16px rgba(0, 177, 79, 0.45);
-}
-
-.logo-sparkle {
-  position: absolute;
-  top: -3px;
-  right: -3px;
-  font-size: 0.65rem;
-  color: #fef08a;
-  animation: pulse 2s infinite ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 177, 79, 0.3);
 }
 
 .recruit-logo-text {
   display: flex;
-  flex-direction: column;
-  line-height: 1.15;
+  align-items: center;
+  gap: 8px;
 }
 
 .brand-title {
-  font-size: 1.22rem;
+  font-size: 1.35rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
   letter-spacing: -0.02em;
 }
 
 .brand-title strong {
-  color: #00d660;
+  color: #00b14f;
   font-weight: 800;
 }
 
-.brand-sub {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: #94a3b8;
+.brand-badge-portal {
+  background: #e6f7ef;
+  color: #00b14f;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-.recruit-live-stat-pill {
+.recruit-nav-links {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(0, 177, 79, 0.12);
-  border: 1px solid rgba(0, 177, 79, 0.28);
-  padding: 5px 12px;
-  border-radius: 9999px;
-  font-size: 0.8rem;
-  color: #a7f3d0;
+  gap: 22px;
 }
 
-.pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
-  animation: pulse 1.8s infinite;
+.nav-item-link {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  padding: 6px 0;
+}
+
+.nav-item-link:hover,
+.nav-item-link.active {
+  color: #00b14f;
 }
 
 .recruit-nav-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
 }
 
-.portal-role-badges {
+.recruit-hotline-box {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.06);
-  padding: 3px;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.portal-badge {
-  padding: 6px 14px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  border-radius: 9999px;
-  color: #cbd5e1;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.portal-badge.active {
-  background: #00b14f;
-  color: #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 177, 79, 0.35);
-}
-
-.portal-badge.candidate-switch:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.recruit-support-info {
-  display: flex;
-  align-items: center;
-  gap: 7px;
+  gap: 10px;
   font-size: 0.82rem;
+  color: #64748b;
+}
+
+.recruit-hotline-box i {
+  color: #00b14f;
+  font-size: 1.25rem;
+}
+
+.hotline-label {
+  display: block;
+  font-size: 0.72rem;
   color: #94a3b8;
+  line-height: 1.1;
 }
 
-.recruit-support-info i {
-  color: #0ea5e9;
+.hotline-number {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.01em;
 }
 
-.recruit-support-info strong {
-  color: #f8fafc;
-}
-
-/* LAYOUT CHÍNH: SPLIT SCREEN RECRUITMENT */
-.recruit-split-layout {
-  display: flex;
-  flex: 1;
-  height: calc(100vh - 64px);
-  width: 100vw;
-  overflow: hidden;
-}
-
-/* CỘT TRÁI: HERO BANNER TUYỂN DỤNG & CÔNG NGHỆ NHÂN SỰ */
-.recruit-banner {
-  flex: 1.32;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  background: #070d18;
-  display: flex;
-  flex-direction: column;
-  z-index: 10;
-  box-shadow: 15px 0 40px rgba(0, 0, 0, 0.4);
-}
-
-.recruit-banner .login-hero-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.55;
-  filter: contrast(1.15) brightness(0.88);
-  transition: transform 2.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.recruit-split-layout:hover .recruit-banner .login-hero-img {
-  transform: scale(1.035);
-}
-
-.recruit-banner-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: 
-    linear-gradient(135deg, rgba(7, 13, 24, 0.92) 0%, rgba(4, 30, 26, 0.84) 55%, rgba(6, 18, 32, 0.94) 100%),
-    radial-gradient(circle at 20% 80%, rgba(0, 177, 79, 0.22) 0%, transparent 60%);
-}
-
-.recruit-banner-inner {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 40px 52px 34px;
-  box-sizing: border-box;
-  overflow-y: auto;
-}
-
-.recruit-eyebrow-pill {
+.btn-candidate-mode {
+  background: #ffffff;
+  border: 1.5px solid #00b14f;
+  color: #00b14f;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(0, 177, 79, 0.16);
-  border: 1px solid rgba(0, 177, 79, 0.35);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-candidate-mode:hover {
+  background: #00b14f;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 177, 79, 0.25);
+}
+
+/* MAIN CONTAINER BODY */
+.recruit-main-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 48px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.recruit-content-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.95fr;
+  gap: 52px;
+  max-width: 1260px;
+  width: 100%;
+  align-items: start;
+}
+
+/* CỘT TRÁI: SHOWCASE GIẢI PHÁP */
+.recruit-showcase-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.recruit-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e6f7ef;
+  color: #00b14f;
+  font-size: 0.76rem;
+  font-weight: 700;
   padding: 6px 14px;
   border-radius: 9999px;
   width: fit-content;
+  margin-bottom: 12px;
 }
 
-.eyebrow-icon {
-  color: #00d660;
-  font-size: 0.85rem;
-}
-
-.eyebrow-text {
-  font-size: 0.76rem;
-  font-weight: 700;
-  color: #6ee7b7;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.recruit-hero-text {
-  margin: 20px 0 16px;
-  max-width: 620px;
-}
-
-.recruit-hero-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  line-height: 1.22;
-  color: #ffffff;
-  letter-spacing: -0.025em;
-  margin: 0 0 14px;
-}
-
-.recruit-gradient-text {
-  background: linear-gradient(90deg, #00d660 0%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-}
-
-.recruit-hero-desc {
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: #94a3b8;
-  margin: 0;
-  max-width: 540px;
-}
-
-/* LIVE CANDIDATE ACTIVITY CARDS */
-.recruit-live-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 8px 0 16px;
-  max-width: 520px;
-}
-
-.live-card-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: rgba(15, 23, 42, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  padding: 12px 18px;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  transition: all 0.25s ease;
-}
-
-.live-card-item:hover {
-  background: rgba(15, 23, 42, 0.82);
-  border-color: rgba(0, 177, 79, 0.35);
-  transform: translateY(-2px);
-}
-
-.candidate-avatar {
-  width: 40px;
-  height: 40px;
+.pill-badge-dot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #00b14f, #059669);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.05rem;
-  flex-shrink: 0;
+  background: #00b14f;
 }
 
-.candidate-avatar.avatar-purple {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-}
-
-.candidate-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.candidate-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.candidate-header strong {
-  font-size: 0.92rem;
-  color: #f8fafc;
-  font-weight: 700;
-}
-
-.match-score {
-  font-size: 0.74rem;
-  font-weight: 700;
-  color: #34d399;
-  background: rgba(16, 185, 129, 0.18);
-  padding: 2px 8px;
-  border-radius: 9999px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.candidate-meta {
-  font-size: 0.78rem;
-  color: #94a3b8;
-}
-
-/* 4 STATS ROW */
-.recruit-stats-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  padding: 16px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.recruit-stat-col {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.stat-number {
-  font-size: 1.45rem;
+.recruit-main-headline {
+  font-size: 2.15rem;
   font-weight: 800;
-  color: #00d660;
-  letter-spacing: -0.02em;
+  line-height: 1.28;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+  margin: 0 0 12px;
 }
 
-.stat-label {
-  font-size: 0.76rem;
-  color: #94a3b8;
-  font-weight: 500;
+.highlight-green {
+  color: #00b14f;
+  font-weight: 800;
 }
 
-/* HOT SKILLS TAGS */
-.recruit-hot-tags {
+.recruit-lead-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #64748b;
+  margin: 0 0 20px;
+  max-width: 580px;
+}
+
+/* ẢNH VĂN PHÒNG CHUYÊN NGHIỆP */
+.recruit-hero-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 24px;
+}
+
+.hero-showcase-photo {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.recruit-hero-card:hover .hero-showcase-photo {
+  transform: scale(1.025);
+}
+
+.hero-floating-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  padding: 10px 16px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.hero-floating-badge i {
+  font-size: 1.5rem;
+  color: #f59e0b;
+}
+
+.hero-floating-badge strong {
+  display: block;
+  font-size: 0.88rem;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.hero-floating-badge span {
+  font-size: 0.74rem;
+  color: #64748b;
+}
+
+/* 3 FEATURES CARD ROW */
+.recruit-features-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.recruit-feature-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  padding-top: 6px;
-}
-
-.tags-title {
-  font-size: 0.8rem;
-  color: #cbd5e1;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.tags-title i {
-  color: #f97316;
-}
-
-.tag-chip {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #cbd5e1;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
   transition: all 0.2s ease;
 }
 
-.tag-chip:hover {
-  background: rgba(0, 177, 79, 0.2);
-  color: #a7f3d0;
-  border-color: rgba(0, 177, 79, 0.4);
+.recruit-feature-card:hover {
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
 
-/* CỘT PHẢI: FORM ĐĂNG NHẬP DOANH NGHIỆP */
-.recruit-form-panel {
-  flex: 0 0 510px;
-  width: 510px;
-  height: 100%;
-  background: #f1f5f9;
+.feat-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px 36px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  border-left: 1px solid #e2e8f0;
+  font-size: 0.95rem;
 }
 
-.recruit-card-modern {
-  width: 100%;
-  max-width: 420px;
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 32px 30px 26px;
-  box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(226, 232, 240, 0.8);
+.feat-icon-green {
+  background: #e6f7ef;
+  color: #00b14f;
+}
+
+.feat-icon-blue {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.feat-icon-purple {
+  background: #f3e8ff;
+  color: #9333ea;
+}
+
+.feat-content strong {
+  display: block;
+  font-size: 0.82rem;
+  color: #0f172a;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.feat-content p {
+  font-size: 0.74rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* PARTNERS LOGOS */
+.recruit-partners-section {
   display: flex;
   flex-direction: column;
-  position: relative;
+  gap: 10px;
 }
 
-/* ROLE SWITCH TABS TRÊN ĐẦU CARD */
-.recruit-role-switch {
+.partners-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.partners-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.partner-badge {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+/* CỘT PHẢI: FORM ĐĂNG NHẬP CHUẨN TOPCV */
+.recruit-login-box-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.recruit-login-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px 30px 24px;
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.08), 0 0 0 1px #e2e8f0;
+  box-sizing: border-box;
+}
+
+/* TABS CHUYỂN ĐỔI NHÀ TUYỂN DỤNG / ỨNG VIÊN */
+.recruit-tab-switch {
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: #f1f5f9;
@@ -658,12 +608,12 @@ body {
   gap: 4px;
 }
 
-.role-tab {
+.portal-tab {
   background: transparent;
   border: none;
   padding: 8px 12px;
   border-radius: 9px;
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: #64748b;
   cursor: pointer;
@@ -675,45 +625,40 @@ body {
   font-family: inherit;
 }
 
-.role-tab.active {
+.portal-tab.active {
   background: #ffffff;
   color: #00b14f;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-.role-tab:hover:not(.active) {
-  color: #0f172a;
-}
-
-.recruit-card-header {
+.recruit-form-header {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.recruit-card-header .login-title {
+.form-title {
   font-size: 1.48rem;
   font-weight: 800;
   color: #0f172a;
   letter-spacing: -0.02em;
-  margin: 0 0 6px;
+  margin: 0 0 4px;
 }
 
-.recruit-card-header .login-subtitle-text {
+.form-desc {
   font-size: 0.84rem;
   color: #64748b;
   margin: 0;
-  line-height: 1.45;
 }
 
-/* SSO SOCIAL LOGIN BUTTONS */
-.recruit-sso-group {
+/* SSO BUTTONS */
+.sso-button-group {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-bottom: 18px;
 }
 
-.btn-sso {
+.btn-sso-item {
   height: 42px;
   background: #ffffff;
   border: 1.5px solid #e2e8f0;
@@ -730,27 +675,27 @@ body {
   font-family: inherit;
 }
 
-.btn-sso:hover {
+.btn-sso-item:hover {
   background: #f8fafc;
   border-color: #cbd5e1;
   transform: translateY(-1px);
 }
 
-.recruit-divider {
+.sso-divider-text {
   display: flex;
   align-items: center;
   text-align: center;
   margin-bottom: 18px;
 }
 
-.recruit-divider::before,
-.recruit-divider::after {
+.sso-divider-text::before,
+.sso-divider-text::after {
   content: '';
   flex: 1;
   border-bottom: 1px solid #e2e8f0;
 }
 
-.recruit-divider span {
+.sso-divider-text span {
   padding: 0 12px;
   font-size: 0.74rem;
   font-weight: 600;
@@ -759,12 +704,12 @@ body {
   letter-spacing: 0.04em;
 }
 
-/* FORM FIELDS & LABELS */
-.recruit-input-field {
+/* FORM FIELDS */
+.form-group-item {
   margin-bottom: 14px;
 }
 
-.field-label {
+.input-label {
   display: block;
   font-size: 0.8rem;
   font-weight: 600;
@@ -772,14 +717,14 @@ body {
   margin-bottom: 6px;
 }
 
-.field-label-row {
+.label-row-action {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 6px;
 }
 
-.forgot-pwd-link {
+.link-forgot {
   font-size: 0.78rem;
   font-weight: 600;
   color: #00b14f;
@@ -787,33 +732,33 @@ body {
   transition: color 0.15s ease;
 }
 
-.forgot-pwd-link:hover {
-  color: #059669;
+.link-forgot:hover {
+  color: #009643;
   text-decoration: underline;
 }
 
-.recruit-input-field .pill-input-group {
+.input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.input-icon {
+.input-prefix-icon {
   position: absolute;
-  left: 16px;
+  left: 14px;
   color: #94a3b8;
   font-size: 0.95rem;
   pointer-events: none;
   transition: color 0.2s ease;
 }
 
-.recruit-input-field .pill-input {
+.form-input {
   width: 100%;
   height: 46px;
-  background: #f8fafc;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 0 16px 0 44px;
+  background: #ffffff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  padding: 0 14px 0 42px;
   font-size: 0.9rem;
   color: #0f172a;
   outline: none;
@@ -822,24 +767,23 @@ body {
   font-family: inherit;
 }
 
-.recruit-input-field .pill-input::placeholder {
+.form-input::placeholder {
   color: #94a3b8;
   font-size: 0.85rem;
 }
 
-.recruit-input-field .pill-input:focus {
-  background: #ffffff;
+.form-input:focus {
   border-color: #00b14f;
-  box-shadow: 0 0 0 3.5px rgba(0, 177, 79, 0.15);
+  box-shadow: 0 0 0 3px rgba(0, 177, 79, 0.16);
 }
 
-.recruit-input-field .pill-input:focus + .input-icon,
-.recruit-input-field .pill-input-group:focus-within .input-icon {
+.form-input:focus + .input-prefix-icon,
+.input-wrapper:focus-within .input-prefix-icon {
   color: #00b14f;
 }
 
-.password-group .pill-input {
-  padding-right: 48px;
+.password-wrapper .form-input {
+  padding-right: 46px;
 }
 
 .btn-toggle-password {
@@ -861,25 +805,23 @@ body {
   color: #0f172a;
 }
 
-/* REMEMBER ME & SECURITY ROW */
-.login-options-row {
+.form-options-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 4px 2px 18px;
+  margin: 6px 2px 18px;
 }
 
-.remember-checkbox-label {
+.checkbox-remember {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-size: 0.82rem;
   color: #475569;
   cursor: pointer;
-  user-select: none;
 }
 
-.remember-checkbox-label input[type="checkbox"] {
+.checkbox-remember input[type="checkbox"] {
   width: 16px;
   height: 16px;
   accent-color: #00b14f;
@@ -887,77 +829,65 @@ body {
   cursor: pointer;
 }
 
-.secure-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.78rem;
-  color: #64748b;
-  font-weight: 600;
-}
-
-.secure-badge i {
-  color: #10b981;
-}
-
-/* NÚT SUBMIT RECRUITMENT PORTAL */
-.btn-recruit-submit {
+/* NÚT SUBMIT CHUẨN TOPCV */
+.btn-submit-recruit {
   width: 100%;
   height: 48px;
-  background: linear-gradient(135deg, #00b14f 0%, #059669 100%);
+  background: #00b14f;
   color: #ffffff;
   border: none;
-  border-radius: 12px;
-  font-size: 0.96rem;
+  border-radius: 10px;
+  font-size: 0.98rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.22s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  box-shadow: 0 4px 14px rgba(0, 177, 79, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 177, 79, 0.28);
   font-family: inherit;
 }
 
-.btn-recruit-submit:hover {
-  background: linear-gradient(135deg, #00c853 0%, #047857 100%);
-  transform: translateY(-1.5px);
-  box-shadow: 0 8px 22px rgba(0, 177, 79, 0.42);
+.btn-submit-recruit:hover {
+  background: #009643;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 177, 79, 0.38);
 }
 
-.btn-recruit-submit:hover i {
+.btn-submit-recruit:hover i {
   transform: translateX(3px);
 }
 
-.btn-recruit-submit i {
+.btn-submit-recruit i {
   transition: transform 0.2s ease;
 }
 
-.btn-recruit-submit:active {
+.btn-submit-recruit:active {
   transform: translateY(0);
 }
 
-.btn-recruit-submit:disabled {
+.btn-submit-recruit:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
 
-/* 1-CLICK DEMO LOGIN BOX */
-.recruit-demo-box {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px dashed #e2e8f0;
+/* 1-CLICK DEMO CARD */
+.demo-login-card {
+  margin-top: 18px;
+  background: #f0fdf4;
+  border: 1px dashed #86efac;
+  border-radius: 12px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
-.recruit-demo-box .quick-title {
-  font-size: 0.74rem;
-  font-weight: 700;
-  color: #64748b;
-  text-transform: uppercase;
+.demo-card-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #15803d;
   letter-spacing: 0.05em;
   text-align: center;
   display: flex;
@@ -966,82 +896,91 @@ body {
   gap: 6px;
 }
 
-.recruit-demo-box .quick-buttons {
-  display: flex;
+.demo-buttons-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
-.recruit-demo-box .quick-btn-chip {
-  flex: 1;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  border-radius: 10px;
+.btn-demo-chip {
+  background: #ffffff;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
   padding: 8px 10px;
-  font-size: 0.78rem;
-  color: #334155;
   cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  transition: all 0.2s ease;
   font-family: inherit;
+  text-align: left;
 }
 
-.recruit-demo-box .demo-admin-btn:hover {
-  background: #f0fdf4;
+.btn-demo-chip:hover {
   border-color: #00b14f;
-  color: #166534;
+  box-shadow: 0 2px 8px rgba(0, 177, 79, 0.15);
+  transform: translateY(-1px);
 }
 
-.recruit-demo-box .demo-admin-btn i {
-  color: #f59e0b;
+.btn-demo-admin i {
+  color: #d97706;
+  font-size: 1.1rem;
 }
 
-.recruit-demo-box .demo-user-btn:hover {
-  background: #eff6ff;
-  border-color: #3b82f6;
-  color: #1e40af;
+.btn-demo-user i {
+  color: #0284c7;
+  font-size: 1.1rem;
 }
 
-.recruit-demo-box .demo-user-btn i {
-  color: #3b82f6;
+.chip-info strong {
+  display: block;
+  font-size: 0.78rem;
+  color: #0f172a;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-/* FOOTER DƯỚI FORM */
-.recruit-login-footer {
-  margin-top: 18px;
+.chip-info span {
+  font-size: 0.68rem;
+  color: #64748b;
+}
+
+/* FOOTER CARD */
+.recruit-card-footer {
+  margin-top: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: #64748b;
   text-align: center;
-  max-width: 400px;
 }
 
-.trust-icons {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #64748b;
-  font-weight: 500;
-}
-
-.signup-prompt {
+.recruit-card-footer p {
   margin: 0;
-  color: #64748b;
 }
 
-.signup-prompt a {
+.recruit-card-footer a {
   color: #00b14f;
   font-weight: 700;
   text-decoration: none;
 }
 
-.signup-prompt a:hover {
+.recruit-card-footer a:hover {
   text-decoration: underline;
+}
+
+.security-cert-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  color: #94a3b8;
+}
+
+.security-cert-badges i {
+  color: #10b981;
 }
 
 .alert-error {
@@ -1049,10 +988,10 @@ body {
   color: var(--danger-text);
   border: 1px solid var(--danger-border);
   padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 0.85rem;
+  border-radius: 10px;
+  font-size: 0.84rem;
   font-weight: 500;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1066,21 +1005,23 @@ body {
   font-size: 0.95rem;
 }
 
-/* RESPONSIVE CHO CỔNG TUYỂN DỤNG */
-@media (max-width: 1080px) {
-  .recruit-banner {
-    display: none;
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .recruit-content-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
-  .recruit-form-panel {
-    flex: 1;
-    width: 100%;
-    padding: 24px;
+  .recruit-showcase-panel {
+    display: none;
   }
   .recruitment-top-nav {
     padding: 0 20px;
   }
-  .recruit-live-stat-pill {
+  .recruit-nav-links {
     display: none;
+  }
+  .recruit-main-container {
+    padding: 24px 16px;
   }
 }
 

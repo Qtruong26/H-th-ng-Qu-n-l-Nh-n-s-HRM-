@@ -103,24 +103,24 @@ function setupAuth() {
     tabEmployer.addEventListener('click', () => {
       tabEmployer.classList.add('active');
       tabCandidate.classList.remove('active');
-      const cardTitle = document.querySelector('.recruit-card-header .login-title');
-      const cardSubtitle = document.querySelector('.recruit-card-header .login-subtitle-text');
-      const submitText = document.querySelector('.btn-recruit-submit span');
-      if (cardTitle) cardTitle.textContent = 'Cổng Đăng Nhập Doanh Nghiệp';
-      if (cardSubtitle) cardSubtitle.textContent = 'Truy cập bảng điều khiển tuyển dụng & quản trị nhân sự nội bộ';
-      if (submitText) submitText.textContent = 'Đăng nhập Cổng Doanh Nghiệp';
+      const cardTitle = document.querySelector('.recruit-form-header .form-title');
+      const cardSubtitle = document.querySelector('.recruit-form-header .form-desc');
+      const submitText = document.querySelector('.btn-submit-recruit span');
+      if (cardTitle) cardTitle.textContent = 'Đăng nhập Nhà Tuyển Dụng';
+      if (cardSubtitle) cardSubtitle.textContent = 'Cùng TopRecruit kết nối nhân tài & phát triển đội ngũ';
+      if (submitText) submitText.textContent = 'Đăng nhập Cổng Nhà Tuyển Dụng';
     });
 
     const switchToCandidate = () => {
       tabCandidate.classList.add('active');
       tabEmployer.classList.remove('active');
-      const cardTitle = document.querySelector('.recruit-card-header .login-title');
-      const cardSubtitle = document.querySelector('.recruit-card-header .login-subtitle-text');
-      const submitText = document.querySelector('.btn-recruit-submit span');
-      if (cardTitle) cardTitle.textContent = 'Cổng Ứng Viên Tìm Việc';
-      if (cardSubtitle) cardSubtitle.textContent = 'Xem trạng thái ứng tuyển & hồ sơ CV xin việc của bạn';
+      const cardTitle = document.querySelector('.recruit-form-header .form-title');
+      const cardSubtitle = document.querySelector('.recruit-form-header .form-desc');
+      const submitText = document.querySelector('.btn-submit-recruit span');
+      if (cardTitle) cardTitle.textContent = 'Đăng nhập Người Tìm Việc';
+      if (cardSubtitle) cardSubtitle.textContent = 'Xem trạng thái hồ sơ ứng tuyển & tìm việc làm mơ ước';
       if (submitText) submitText.textContent = 'Đăng nhập Cổng Ứng Viên';
-      showToast('Cổng Ứng viên đang chuẩn bị mở rộng. Bạn có thể chuyển về "Nhà Tuyển Dụng" để trải nghiệm toàn bộ hệ thống HRM!', 'info');
+      showToast('Cổng Ứng viên đang kết nối. Hiện tại vui lòng chọn tab "Nhà Tuyển Dụng" để quản trị hệ thống HRM!', 'info');
     };
 
     tabCandidate.addEventListener('click', switchToCandidate);
