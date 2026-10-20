@@ -65,12 +65,20 @@ function setupAuth() {
 
   if (btnQuickAdmin) {
     btnQuickAdmin.addEventListener('click', () => {
+      const uInput = document.getElementById('login-username');
+      const pInput = document.getElementById('login-password');
+      if (uInput) uInput.value = 'admin';
+      if (pInput) pInput.value = 'Admin@123';
       performLogin('admin', 'Admin@123');
     });
   }
 
   if (btnQuickUserAn) {
     btnQuickUserAn.addEventListener('click', () => {
+      const uInput = document.getElementById('login-username');
+      const pInput = document.getElementById('login-password');
+      if (uInput) uInput.value = 'an.nguyen';
+      if (pInput) pInput.value = 'An@123';
       performLogin('an.nguyen', 'An@123');
     });
   }
@@ -81,8 +89,71 @@ function setupAuth() {
     btnTogglePwd.addEventListener('click', () => {
       const isPassword = loginPwdInput.type === 'password';
       loginPwdInput.type = isPassword ? 'text' : 'password';
-      btnTogglePwd.textContent = isPassword ? 'Ẩn' : 'Hiện';
+      btnTogglePwd.innerHTML = isPassword ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
       btnTogglePwd.setAttribute('aria-label', isPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu');
+    });
+  }
+
+  // Chuyển đổi qua lại giữa tab Nhà Tuyển Dụng và Ứng Viên
+  const tabEmployer = document.getElementById('tab-employer');
+  const tabCandidate = document.getElementById('tab-candidate');
+  const btnSwitchCandidate = document.getElementById('btn-switch-candidate');
+
+  if (tabEmployer && tabCandidate) {
+    tabEmployer.addEventListener('click', () => {
+      tabEmployer.classList.add('active');
+      tabCandidate.classList.remove('active');
+      const cardTitle = document.querySelector('.recruit-card-header .login-title');
+      const cardSubtitle = document.querySelector('.recruit-card-header .login-subtitle-text');
+      const submitText = document.querySelector('.btn-recruit-submit span');
+      if (cardTitle) cardTitle.textContent = 'Cổng Đăng Nhập Doanh Nghiệp';
+      if (cardSubtitle) cardSubtitle.textContent = 'Truy cập bảng điều khiển tuyển dụng & quản trị nhân sự nội bộ';
+      if (submitText) submitText.textContent = 'Đăng nhập Cổng Doanh Nghiệp';
+    });
+
+    const switchToCandidate = () => {
+      tabCandidate.classList.add('active');
+      tabEmployer.classList.remove('active');
+      const cardTitle = document.querySelector('.recruit-card-header .login-title');
+      const cardSubtitle = document.querySelector('.recruit-card-header .login-subtitle-text');
+      const submitText = document.querySelector('.btn-recruit-submit span');
+      if (cardTitle) cardTitle.textContent = 'Cổng Ứng Viên Tìm Việc';
+      if (cardSubtitle) cardSubtitle.textContent = 'Xem trạng thái ứng tuyển & hồ sơ CV xin việc của bạn';
+      if (submitText) submitText.textContent = 'Đăng nhập Cổng Ứng Viên';
+      showToast('Cổng Ứng viên đang chuẩn bị mở rộng. Bạn có thể chuyển về "Nhà Tuyển Dụng" để trải nghiệm toàn bộ hệ thống HRM!', 'info');
+    };
+
+    tabCandidate.addEventListener('click', switchToCandidate);
+    if (btnSwitchCandidate) btnSwitchCandidate.addEventListener('click', switchToCandidate);
+  }
+
+  // Tương tác các nút SSO và liên kết phụ trợ
+  const btnGoogle = document.getElementById('btn-sso-google');
+  const btnLinkedin = document.getElementById('btn-sso-linkedin');
+  const linkForgot = document.getElementById('link-forgot-pwd');
+  const linkRegister = document.getElementById('link-register-employer');
+
+  if (btnGoogle) {
+    btnGoogle.addEventListener('click', () => {
+      showToast('Đăng nhập Google Workspace yêu cầu tích hợp Google Cloud OAuth2. Vui lòng sử dụng tài khoản Demo bên dưới để kiểm tra!', 'info');
+    });
+  }
+
+  if (btnLinkedin) {
+    btnLinkedin.addEventListener('click', () => {
+      showToast('Đăng nhập LinkedIn Recruiter yêu cầu chứng chỉ đối tác LinkedIn. Vui lòng dùng tài khoản Demo bên dưới!', 'info');
+    });
+  }
+
+  if (linkForgot) {
+    linkForgot.addEventListener('click', () => {
+      showToast('Vui lòng liên hệ Hotline 1900 6868 hoặc Quản trị viên hệ thống để khôi phục mật khẩu tài khoản HR của bạn.', 'info');
+    });
+  }
+
+  if (linkRegister) {
+    linkRegister.addEventListener('click', () => {
+      showToast('Cảm ơn quý doanh nghiệp! Chuyên viên tư vấn tuyển dụng TopRecruit sẽ liên hệ trong vòng 15 phút.', 'success');
     });
   }
 

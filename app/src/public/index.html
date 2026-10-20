@@ -14,104 +14,239 @@
 </head>
 <body>
 
-  <!-- LOGIN FULL-SCREEN PAGE (SPLIT-SCREEN THEO PHONG CÁCH HIỆN ĐẠI) -->
-  <div id="login-overlay" class="login-overlay">
-    <div class="login-split-card">
-      
-      <!-- CỘT TRÁI: HERO BANNER TỐI MÀU VỚI TYPOGRAPHY & ĐIỂM NHẤN XANH LIME NEON -->
-      <div class="login-banner">
-        <img src="hrm_login_hero.jpg" alt="HRM Talent & Personnel Portal" class="login-hero-img">
-        <div class="login-banner-gradient-overlay"></div>
-        
-        <div class="login-banner-content">
-          <!-- Top Brand Badge -->
-          <div class="login-banner-top">
-            <div class="login-brand-pill">
-              <span class="brand-pill-icon"><i class="fa-solid fa-bars-staggered"></i></span>
-              <span class="brand-pill-text">QUẢN TRỊ NHÂN SỰ</span>
-            </div>
+  <!-- LOGIN FULL-SCREEN RECRUITMENT PORTAL (CỔNG TUYỂN DỤNG & QUẢN TRỊ NHÂN TÀI) -->
+  <div id="login-overlay" class="login-overlay recruitment-portal-theme">
+    
+    <!-- Top Global Header dành riêng cho Cổng Tuyển Dụng -->
+    <header class="recruitment-top-nav">
+      <div class="recruit-nav-left">
+        <div class="recruit-logo-box">
+          <div class="recruit-logo-icon">
+            <i class="fa-solid fa-briefcase"></i>
+            <span class="logo-sparkle"><i class="fa-solid fa-sparkles"></i></span>
           </div>
-
-          <!-- Middle Typography -->
-          <div class="login-banner-center">
-            <div class="banner-eyebrow">QUẢN TRỊ MINH BẠCH • TƯƠNG LAI VỮNG VÀNG</div>
-            <h1 class="banner-heading">
-              Để từng nhân sự<br>
-              <span class="banner-heading-highlight">đều phát huy tối đa.</span>
-            </h1>
-            <p class="banner-description">
-              Theo dõi hồ sơ, kiểm soát chấm công và tiến gần hơn đến những mục tiêu tăng trưởng quan trọng của doanh nghiệp.
-            </p>
+          <div class="recruit-logo-text">
+            <span class="brand-title">TOP<strong>RECRUIT</strong></span>
+            <span class="brand-sub">HRM Enterprise</span>
           </div>
-
-          <!-- Bottom 3 Highlight Features -->
-          <div class="login-banner-features">
-            <div class="banner-feature-item">
-              <span class="feature-num">01</span>
-              <div class="feature-text">
-                <strong>Dữ liệu riêng</strong>
-                <span>theo từng tài khoản</span>
-              </div>
-            </div>
-            <div class="banner-feature-item">
-              <span class="feature-num">02</span>
-              <div class="feature-text">
-                <strong>Theo dõi nhân sự</strong>
-                <span>thời gian thực</span>
-              </div>
-            </div>
-            <div class="banner-feature-item">
-              <span class="feature-num">03</span>
-              <div class="feature-text">
-                <strong>Báo cáo rõ ràng</strong>
-                <span>chuẩn doanh nghiệp</span>
-              </div>
-            </div>
-          </div>
+        </div>
+        <div class="recruit-live-stat-pill">
+          <span class="pulse-dot"></span>
+          <span><strong>54,280+</strong> hồ sơ nhân tài trực tuyến</span>
         </div>
       </div>
 
-      <!-- CỘT PHẢI: KHÔNG GIAN SÁNG VỚI FLOATING CARD BO TRÒN HIỆN ĐẠI -->
-      <div class="login-form-container">
-        <div class="login-card-floating">
+      <div class="recruit-nav-right">
+        <div class="portal-role-badges">
+          <span class="portal-badge active"><i class="fa-solid fa-building"></i> Dành Cho Nhà Tuyển Dụng & HR</span>
+          <span class="portal-badge candidate-switch" id="btn-switch-candidate"><i class="fa-solid fa-user-tie"></i> Cổng Ứng Viên</span>
+        </div>
+        <div class="recruit-support-info">
+          <i class="fa-solid fa-headset"></i>
+          <span>Hotline hỗ trợ: <strong>1900 6868</strong></span>
+        </div>
+      </div>
+    </header>
+
+    <div class="login-split-card recruit-split-layout">
+      
+      <!-- CỘT TRÁI: HERO SHOWCASE NỀN TẢNG TUYỂN DỤNG & QUẢN TRỊ NHÂN LỰC -->
+      <div class="login-banner recruit-banner">
+        <img src="recruitment_hero_banner.jpg" alt="Recruitment & Talent Analytics Hub" class="login-hero-img">
+        <div class="recruit-banner-overlay"></div>
+        
+        <div class="recruit-banner-inner">
+          <!-- Top Badge -->
+          <div class="recruit-eyebrow-pill">
+            <span class="eyebrow-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+            <span class="eyebrow-text">NỀN TẢNG TUYỂN DỤNG & QUẢN TRỊ NHÂN TÀI 4.0</span>
+          </div>
+
+          <!-- Main Typography -->
+          <div class="recruit-hero-text">
+            <h1 class="recruit-hero-title">
+              Thu hút nhân tài đỉnh cao,<br>
+              <span class="recruit-gradient-text">Kiến tạo tương lai doanh nghiệp.</span>
+            </h1>
+            <p class="recruit-hero-desc">
+              Hệ sinh thái tuyển dụng thông minh tích hợp ATS đa kênh, sàng lọc CV tự động bằng AI, đồng bộ chấm công và tối ưu hoá năng suất nhân sự doanh nghiệp.
+            </p>
+          </div>
+
+          <!-- Live Matching Candidate Cards (Mô phỏng tin tuyển dụng thời gian thực) -->
+          <div class="recruit-live-cards">
+            <div class="live-card-item">
+              <div class="candidate-avatar">
+                <i class="fa-solid fa-user-astronaut"></i>
+              </div>
+              <div class="candidate-info">
+                <div class="candidate-header">
+                  <strong>Lê Hoàng Long</strong>
+                  <span class="match-score"><i class="fa-solid fa-circle-check"></i> 98% Match</span>
+                </div>
+                <div class="candidate-meta">
+                  <span>Senior Fullstack Engineer</span> • <span>5+ năm kn</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="live-card-item">
+              <div class="candidate-avatar avatar-purple">
+                <i class="fa-solid fa-user-graduate"></i>
+              </div>
+              <div class="candidate-info">
+                <div class="candidate-header">
+                  <strong>Trần Thu Hà</strong>
+                  <span class="match-score"><i class="fa-solid fa-circle-check"></i> 96% Match</span>
+                </div>
+                <div class="candidate-meta">
+                  <span>HR Business Partner & ATS Specialist</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metrics Counter -->
+          <div class="recruit-stats-row">
+            <div class="recruit-stat-col">
+              <div class="stat-number">150K+</div>
+              <div class="stat-label">Hồ sơ ứng viên</div>
+            </div>
+            <div class="recruit-stat-col">
+              <div class="stat-number">3,800+</div>
+              <div class="stat-label">Doanh nghiệp hợp tác</div>
+            </div>
+            <div class="recruit-stat-col">
+              <div class="stat-number">99.2%</div>
+              <div class="stat-label">Khớp lệnh tuyển dụng</div>
+            </div>
+            <div class="recruit-stat-col">
+              <div class="stat-number">&lt; 15ms</div>
+              <div class="stat-label">Hệ thống thời gian thực</div>
+            </div>
+          </div>
+
+          <!-- Trending Hot Skills -->
+          <div class="recruit-hot-tags">
+            <span class="tags-title"><i class="fa-solid fa-fire"></i> Xu hướng tuyển dụng:</span>
+            <span class="tag-chip">#Fullstack_Dev</span>
+            <span class="tag-chip">#Data_AI</span>
+            <span class="tag-chip">#HR_Talent</span>
+            <span class="tag-chip">#Product_Manager</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CỘT PHẢI: FORM ĐĂNG NHẬP NHÀ TUYỂN DỤNG & QUẢN TRỊ VIÊN -->
+      <div class="login-form-container recruit-form-panel">
+        <div class="login-card-floating recruit-card-modern">
           
-          <div class="login-card-header">
-            <h2 class="login-title">Chào mừng trở lại</h2>
-            <p class="login-subtitle-text">Đăng nhập để tiếp tục quản lý nhân sự</p>
+          <!-- Portal Role Switcher Tabs -->
+          <div class="recruit-role-switch">
+            <button type="button" class="role-tab active" id="tab-employer">
+              <i class="fa-solid fa-building"></i> Nhà Tuyển Dụng & HR
+            </button>
+            <button type="button" class="role-tab" id="tab-candidate">
+              <i class="fa-solid fa-user"></i> Ứng Viên
+            </button>
+          </div>
+
+          <div class="login-card-header recruit-card-header">
+            <h2 class="login-title">Cổng Đăng Nhập Doanh Nghiệp</h2>
+            <p class="login-subtitle-text">Truy cập bảng điều khiển tuyển dụng & quản trị nhân sự nội bộ</p>
+          </div>
+
+          <!-- Social / Single Sign-On Buttons -->
+          <div class="recruit-sso-group">
+            <button type="button" class="btn-sso btn-sso-google" id="btn-sso-google" title="Đăng nhập với Google Workspace">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+              <span>Google Workspace</span>
+            </button>
+            <button type="button" class="btn-sso btn-sso-linkedin" id="btn-sso-linkedin" title="Đăng nhập với LinkedIn Recruiter">
+              <i class="fa-brands fa-linkedin" style="color: #0a66c2;"></i>
+              <span>LinkedIn Recruiter</span>
+            </button>
+          </div>
+
+          <div class="recruit-divider">
+            <span>hoặc đăng nhập bằng tài khoản HRM</span>
           </div>
 
           <div id="login-error-alert" class="alert-error" style="display: none;"></div>
 
           <form id="login-form">
-            <!-- Tên đăng nhập -->
-            <div class="pill-input-group">
-              <input type="text" id="login-username" class="pill-input" required placeholder="Địa chỉ Email hoặc Tên đăng nhập" autocomplete="username">
+            <!-- Tên đăng nhập / Email doanh nghiệp -->
+            <div class="recruit-input-field">
+              <label for="login-username" class="field-label">Tài khoản Doanh nghiệp / Email HR</label>
+              <div class="pill-input-group">
+                <span class="input-icon"><i class="fa-regular fa-envelope"></i></span>
+                <input type="text" id="login-username" class="pill-input" required placeholder="admin hoặc hr@company.vn" autocomplete="username">
+              </div>
             </div>
 
             <!-- Mật khẩu với nút Hiện / Ẩn -->
-            <div class="pill-input-group password-group">
-              <input type="password" id="login-password" class="pill-input" required placeholder="Mật khẩu" autocomplete="current-password">
-              <button type="button" class="btn-toggle-password" id="btn-toggle-password" aria-label="Hiện hoặc ẩn mật khẩu">Hiện</button>
+            <div class="recruit-input-field">
+              <div class="field-label-row">
+                <label for="login-password" class="field-label">Mật khẩu truy cập</label>
+                <a href="javascript:void(0)" class="forgot-pwd-link" id="link-forgot-pwd">Quên mật khẩu?</a>
+              </div>
+              <div class="pill-input-group password-group">
+                <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" id="login-password" class="pill-input" required placeholder="Nhập mật khẩu của bạn" autocomplete="current-password">
+                <button type="button" class="btn-toggle-password" id="btn-toggle-password" aria-label="Hiện hoặc ẩn mật khẩu">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
             </div>
 
-            <!-- Trạng thái đăng nhập an toàn -->
+            <!-- Trạng thái ghi nhớ và an toàn -->
             <div class="login-options-row">
+              <label class="remember-checkbox-label">
+                <input type="checkbox" id="remember-me" checked>
+                <span>Ghi nhớ phiên đăng nhập</span>
+              </label>
               <span class="secure-badge">
-                <i class="fa-solid fa-shield-halved"></i> Đăng nhập an toàn
+                <i class="fa-solid fa-shield-halved"></i> SSL 256-bit
               </span>
             </div>
 
-            <!-- Nút submit bo tròn màu đen đậm -->
-            <button type="submit" class="btn-pill-submit" id="btn-login-submit">
-              Đăng nhập
+            <!-- Nút submit tuyển dụng bắt mắt -->
+            <button type="submit" class="btn-recruit-submit" id="btn-login-submit">
+              <span>Đăng nhập Cổng Doanh Nghiệp</span>
+              <i class="fa-solid fa-arrow-right"></i>
             </button>
           </form>
+
+          <!-- 1-Click Fast Login dành cho Kiểm thử / Đánh giá -->
+          <div class="quick-login-pills recruit-demo-box">
+            <div class="quick-title">
+              <i class="fa-solid fa-key"></i> Tài khoản trải nghiệm nhanh (1-Click Demo)
+            </div>
+            <div class="quick-buttons">
+              <button type="button" class="quick-btn-chip demo-admin-btn" id="btn-quick-admin">
+                <i class="fa-solid fa-crown"></i> <strong>HR Admin</strong> (Toàn quyền)
+              </button>
+              <button type="button" class="quick-btn-chip demo-user-btn" id="btn-quick-user-an">
+                <i class="fa-solid fa-user-check"></i> <strong>Chuyên Viên HR</strong> (an.nguyen)
+              </button>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Chân trang bảo mật bên ngoài card -->
-        <div class="login-security-footer">
-          Dữ liệu nhân sự được tách riêng và bảo mật theo từng tài khoản.
+        <!-- Chân trang bảo mật & uy tín tuyển dụng -->
+        <div class="recruit-login-footer">
+          <div class="trust-icons">
+            <span><i class="fa-solid fa-certificate"></i> ISO/IEC 27001:2022</span>
+            <span>•</span>
+            <span><i class="fa-solid fa-database"></i> Tách biệt CSDL theo tài khoản</span>
+          </div>
+          <p class="signup-prompt">
+            Chưa có tài khoản tuyển dụng? <a href="javascript:void(0)" id="link-register-employer">Đăng ký tư vấn tuyển dụng</a>
+          </p>
         </div>
+
       </div>
 
     </div>

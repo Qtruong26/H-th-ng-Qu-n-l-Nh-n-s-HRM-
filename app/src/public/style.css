@@ -185,260 +185,636 @@ body {
   color: var(--primary);
 }
 
-/* ---------- 3. LOGIN FULL-SCREEN SPLIT SCREEN (CHUẨN HÌNH MẪU HIỆN ĐẠI) ---------- */
-.login-overlay {
+/* ---------- 3. RECRUITMENT PORTAL FULL-SCREEN LOGIN (CHUẨN WEB TUYỂN DỤNG HÀNG ĐẦU) ---------- */
+.login-overlay.recruitment-portal-theme {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: #0c1017;
+  background: #080e1a;
   z-index: 9999;
   display: flex;
+  flex-direction: column;
   padding: 0;
   margin: 0;
   overflow: hidden;
-  animation: fadeIn 0.25s ease-out;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--font-sans);
 }
 
-.login-split-card {
+/* TOP GLOBAL NAVIGATION BAR CỦA CỔNG TUYỂN DỤNG */
+.recruitment-top-nav {
+  height: 64px;
+  width: 100%;
+  background: rgba(10, 17, 32, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  box-sizing: border-box;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.recruit-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.recruit-logo-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.recruit-logo-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #00b14f 0%, #0ea5e9 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  position: relative;
+  box-shadow: 0 0 16px rgba(0, 177, 79, 0.45);
+}
+
+.logo-sparkle {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  font-size: 0.65rem;
+  color: #fef08a;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.recruit-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-title {
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.brand-title strong {
+  color: #00d660;
+  font-weight: 800;
+}
+
+.brand-sub {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.recruit-live-stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 177, 79, 0.12);
+  border: 1px solid rgba(0, 177, 79, 0.28);
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  color: #a7f3d0;
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse 1.8s infinite;
+}
+
+.recruit-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.portal-role-badges {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 3px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.portal-badge {
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.portal-badge.active {
+  background: #00b14f;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 177, 79, 0.35);
+}
+
+.portal-badge.candidate-switch:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.recruit-support-info {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.recruit-support-info i {
+  color: #0ea5e9;
+}
+
+.recruit-support-info strong {
+  color: #f8fafc;
+}
+
+/* LAYOUT CHÍNH: SPLIT SCREEN RECRUITMENT */
+.recruit-split-layout {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 64px);
   width: 100vw;
-  height: 100vh;
-  max-width: 100vw;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 0;
   overflow: hidden;
 }
 
-/* CỘT TRÁI: Hero Banner tối màu với hình nền & Neon Lime Accent có SHADOW */
-.login-banner {
-  flex: 1.28;
-  height: 100vh;
+/* CỘT TRÁI: HERO BANNER TUYỂN DỤNG & CÔNG NGHỆ NHÂN SỰ */
+.recruit-banner {
+  flex: 1.32;
+  height: 100%;
   position: relative;
   overflow: hidden;
-  background: #0a0e17;
+  background: #070d18;
   display: flex;
   flex-direction: column;
   z-index: 10;
-  box-shadow: 20px 0 45px -8px rgba(0, 0, 0, 0.45), 8px 0 18px rgba(0, 0, 0, 0.25);
+  box-shadow: 15px 0 40px rgba(0, 0, 0, 0.4);
 }
 
-.login-hero-img {
+.recruit-banner .login-hero-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.42;
-  filter: contrast(1.18) brightness(0.82);
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.55;
+  filter: contrast(1.15) brightness(0.88);
+  transition: transform 2.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.login-split-card:hover .login-hero-img {
-  transform: scale(1.03);
+.recruit-split-layout:hover .recruit-banner .login-hero-img {
+  transform: scale(1.035);
 }
 
-.login-banner-gradient-overlay {
+.recruit-banner-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  box-shadow: inset 0 0 130px 35px rgba(6, 10, 16, 0.95);
   background: 
-    linear-gradient(135deg, rgba(10, 14, 22, 0.90) 0%, rgba(8, 12, 19, 0.85) 55%, rgba(6, 12, 16, 0.94) 100%),
-    radial-gradient(ellipse 70% 60% at 35% 85%, rgba(195, 245, 60, 0.18) 0%, rgba(195, 245, 60, 0.04) 45%, transparent 75%);
+    linear-gradient(135deg, rgba(7, 13, 24, 0.92) 0%, rgba(4, 30, 26, 0.84) 55%, rgba(6, 18, 32, 0.94) 100%),
+    radial-gradient(circle at 20% 80%, rgba(0, 177, 79, 0.22) 0%, transparent 60%);
 }
 
-.login-banner-content {
+.recruit-banner-inner {
   position: relative;
   z-index: 2;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 48px 56px 42px;
+  padding: 40px 52px 34px;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
-/* Logo / Brand Badge trên cùng bên trái */
-.login-banner-top {
-  display: flex;
-  align-items: center;
-}
-
-.login-brand-pill {
+.recruit-eyebrow-pill {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  user-select: none;
+  gap: 8px;
+  background: rgba(0, 177, 79, 0.16);
+  border: 1px solid rgba(0, 177, 79, 0.35);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  width: fit-content;
 }
 
-.brand-pill-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #c3f53c;
-  color: #0b0f17;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 800;
-  box-shadow: 0 0 20px rgba(195, 245, 60, 0.45);
+.eyebrow-icon {
+  color: #00d660;
+  font-size: 0.85rem;
 }
 
-.brand-pill-text {
-  color: #ffffff;
-  font-weight: 800;
-  font-size: 0.95rem;
+.eyebrow-text {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #6ee7b7;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-/* Phần Typography trung tâm */
-.login-banner-center {
+.recruit-hero-text {
+  margin: 20px 0 16px;
   max-width: 620px;
-  margin: auto 0;
-  padding: 24px 0;
 }
 
-.banner-eyebrow {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #94a3b8;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-
-.banner-heading {
-  font-size: 2.75rem;
+.recruit-hero-title {
+  font-size: 2.5rem;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.22;
   color: #ffffff;
   letter-spacing: -0.025em;
-  margin: 0 0 16px;
-  font-family: inherit;
+  margin: 0 0 14px;
 }
 
-.banner-heading-highlight {
-  color: #c3f53c;
-  font-style: italic;
+.recruit-gradient-text {
+  background: linear-gradient(90deg, #00d660 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   display: inline-block;
 }
 
-.banner-description {
-  color: #94a3b8;
-  font-size: 0.92rem;
+.recruit-hero-desc {
+  font-size: 0.95rem;
   line-height: 1.65;
-  max-width: 500px;
+  color: #94a3b8;
   margin: 0;
+  max-width: 540px;
 }
 
-/* 3 Điểm nổi bật dưới cùng */
-.login-banner-features {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.banner-feature-item {
+/* LIVE CANDIDATE ACTIVITY CARDS */
+.recruit-live-cards {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 12px;
+  margin: 8px 0 16px;
+  max-width: 520px;
 }
 
-.feature-num {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #c3f53c;
-  letter-spacing: -0.02em;
+.live-card-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  padding: 12px 18px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
 }
 
-.feature-text {
+.live-card-item:hover {
+  background: rgba(15, 23, 42, 0.82);
+  border-color: rgba(0, 177, 79, 0.35);
+  transform: translateY(-2px);
+}
+
+.candidate-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00b14f, #059669);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+
+.candidate-avatar.avatar-purple {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.candidate-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.feature-text strong {
-  font-size: 0.88rem;
-  color: #f1f5f9;
+.candidate-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.candidate-header strong {
+  font-size: 0.92rem;
+  color: #f8fafc;
   font-weight: 700;
 }
 
-.feature-text span {
-  font-size: 0.8rem;
+.match-score {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.18);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.candidate-meta {
+  font-size: 0.78rem;
   color: #94a3b8;
 }
 
-/* CỘT PHẢI: Khung nền sáng với Floating Card tròn đẹp */
-.login-form-container {
-  flex: 0 0 490px;
-  width: 490px;
-  height: 100vh;
-  background: #f3f5f8;
+/* 4 STATS ROW */
+.recruit-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.recruit-stat-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.stat-number {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #00d660;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: 0.76rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* HOT SKILLS TAGS */
+.recruit-hot-tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 6px;
+}
+
+.tags-title {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tags-title i {
+  color: #f97316;
+}
+
+.tag-chip {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.tag-chip:hover {
+  background: rgba(0, 177, 79, 0.2);
+  color: #a7f3d0;
+  border-color: rgba(0, 177, 79, 0.4);
+}
+
+/* CỘT PHẢI: FORM ĐĂNG NHẬP DOANH NGHIỆP */
+.recruit-form-panel {
+  flex: 0 0 510px;
+  width: 510px;
+  height: 100%;
+  background: #f1f5f9;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 32px 36px;
+  padding: 24px 36px;
   box-sizing: border-box;
   overflow-y: auto;
   border-left: 1px solid #e2e8f0;
 }
 
-.login-card-floating {
+.recruit-card-modern {
   width: 100%;
-  max-width: 390px;
+  max-width: 420px;
   background: #ffffff;
-  border-radius: 28px;
-  padding: 44px 34px 36px;
-  box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 8px 24px -4px rgba(15, 23, 42, 0.05);
+  border-radius: 24px;
+  padding: 32px 30px 26px;
+  box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(226, 232, 240, 0.8);
   display: flex;
   flex-direction: column;
   position: relative;
 }
 
-.login-card-header {
-  text-align: center;
-  margin-bottom: 26px;
+/* ROLE SWITCH TABS TRÊN ĐẦU CARD */
+.recruit-role-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  gap: 4px;
 }
 
-.login-title {
-  font-size: 1.65rem;
+.role-tab {
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 9px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+}
+
+.role-tab.active {
+  background: #ffffff;
+  color: #00b14f;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.role-tab:hover:not(.active) {
+  color: #0f172a;
+}
+
+.recruit-card-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.recruit-card-header .login-title {
+  font-size: 1.48rem;
   font-weight: 800;
-  color: #111827;
+  color: #0f172a;
   letter-spacing: -0.02em;
   margin: 0 0 6px;
 }
 
-.login-subtitle-text {
-  font-size: 0.88rem;
+.recruit-card-header .login-subtitle-text {
+  font-size: 0.84rem;
   color: #64748b;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
-/* Pill Input Groups */
-.pill-input-group {
+/* SSO SOCIAL LOGIN BUTTONS */
+.recruit-sso-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.btn-sso {
+  height: 42px;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-sso:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.recruit-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.recruit-divider::before,
+.recruit-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.recruit-divider span {
+  padding: 0 12px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* FORM FIELDS & LABELS */
+.recruit-input-field {
+  margin-bottom: 14px;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.field-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.forgot-pwd-link {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #00b14f;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.forgot-pwd-link:hover {
+  color: #059669;
+  text-decoration: underline;
+}
+
+.recruit-input-field .pill-input-group {
   position: relative;
-  margin-bottom: 13px;
+  display: flex;
+  align-items: center;
 }
 
-.pill-input {
+.input-icon {
+  position: absolute;
+  left: 16px;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.recruit-input-field .pill-input {
   width: 100%;
-  height: 50px;
-  background: #eef2f6;
-  border: 1.5px solid transparent;
-  border-radius: 9999px;
-  padding: 0 22px;
-  font-size: 0.92rem;
+  height: 46px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0 16px 0 44px;
+  font-size: 0.9rem;
   color: #0f172a;
   outline: none;
   transition: all 0.2s ease;
@@ -446,32 +822,35 @@ body {
   font-family: inherit;
 }
 
-.pill-input::placeholder {
+.recruit-input-field .pill-input::placeholder {
   color: #94a3b8;
-  font-weight: 500;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
 }
 
-.pill-input:focus {
+.recruit-input-field .pill-input:focus {
   background: #ffffff;
-  border-color: #cbd5e1;
-  box-shadow: 0 0 0 4px rgba(148, 163, 184, 0.16);
+  border-color: #00b14f;
+  box-shadow: 0 0 0 3.5px rgba(0, 177, 79, 0.15);
+}
+
+.recruit-input-field .pill-input:focus + .input-icon,
+.recruit-input-field .pill-input-group:focus-within .input-icon {
+  color: #00b14f;
 }
 
 .password-group .pill-input {
-  padding-right: 68px;
+  padding-right: 48px;
 }
 
 .btn-toggle-password {
   position: absolute;
-  right: 16px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: #64748b;
+  font-size: 0.95rem;
+  color: #94a3b8;
   cursor: pointer;
   padding: 6px 8px;
   border-radius: 6px;
@@ -482,115 +861,187 @@ body {
   color: #0f172a;
 }
 
+/* REMEMBER ME & SECURITY ROW */
 .login-options-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 4px 6px 18px;
+  margin: 4px 2px 18px;
+}
+
+.remember-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+}
+
+.remember-checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #00b14f;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .secure-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
+  gap: 5px;
+  font-size: 0.78rem;
   color: #64748b;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .secure-badge i {
   color: #10b981;
-  font-size: 0.85rem;
 }
 
-/* Nút Submit Bo Tròn Màu Đen Đậm Chuẩn Mẫu */
-.btn-pill-submit {
+/* NÚT SUBMIT RECRUITMENT PORTAL */
+.btn-recruit-submit {
   width: 100%;
-  height: 50px;
-  background: #161b22;
+  height: 48px;
+  background: linear-gradient(135deg, #00b14f 0%, #059669 100%);
   color: #ffffff;
   border: none;
-  border-radius: 9999px;
-  font-size: 0.98rem;
+  border-radius: 12px;
+  font-size: 0.96rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.22s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(22, 27, 34, 0.25);
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(0, 177, 79, 0.35);
   font-family: inherit;
 }
 
-.btn-pill-submit:hover {
-  background: #000000;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+.btn-recruit-submit:hover {
+  background: linear-gradient(135deg, #00c853 0%, #047857 100%);
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 22px rgba(0, 177, 79, 0.42);
 }
 
-.btn-pill-submit:active {
+.btn-recruit-submit:hover i {
+  transform: translateX(3px);
+}
+
+.btn-recruit-submit i {
+  transition: transform 0.2s ease;
+}
+
+.btn-recruit-submit:active {
   transform: translateY(0);
 }
 
-.btn-pill-submit:disabled {
+.btn-recruit-submit:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
 
-/* Quick login demo accounts */
-.quick-login-pills {
-  margin-top: 18px;
-  padding-top: 14px;
+/* 1-CLICK DEMO LOGIN BOX */
+.recruit-demo-box {
+  margin-top: 20px;
+  padding-top: 16px;
   border-top: 1px dashed #e2e8f0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
-.quick-title {
+.recruit-demo-box .quick-title {
   font-size: 0.74rem;
   font-weight: 700;
-  color: #94a3b8;
+  color: #64748b;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
-.quick-buttons {
+.recruit-demo-box .quick-buttons {
   display: flex;
   gap: 8px;
-  justify-content: center;
 }
 
-.quick-btn-chip {
+.recruit-demo-box .quick-btn-chip {
+  flex: 1;
   background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 9999px;
-  padding: 6px 14px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #475569;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 0.78rem;
+  color: #334155;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   font-family: inherit;
 }
 
-.quick-btn-chip:hover {
-  background: #e2e8f0;
-  color: #0f172a;
+.recruit-demo-box .demo-admin-btn:hover {
+  background: #f0fdf4;
+  border-color: #00b14f;
+  color: #166534;
 }
 
-/* Chân trang ghi chú bảo mật */
-.login-security-footer {
-  margin-top: 20px;
-  font-size: 0.8rem;
-  color: #94a3b8;
+.recruit-demo-box .demo-admin-btn i {
+  color: #f59e0b;
+}
+
+.recruit-demo-box .demo-user-btn:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1e40af;
+}
+
+.recruit-demo-box .demo-user-btn i {
+  color: #3b82f6;
+}
+
+/* FOOTER DƯỚI FORM */
+.recruit-login-footer {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: #64748b;
   text-align: center;
-  max-width: 380px;
-  line-height: 1.45;
+  max-width: 400px;
+}
+
+.trust-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.signup-prompt {
+  margin: 0;
+  color: #64748b;
+}
+
+.signup-prompt a {
+  color: #00b14f;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.signup-prompt a:hover {
+  text-decoration: underline;
 }
 
 .alert-error {
@@ -613,6 +1064,24 @@ body {
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
   font-size: 0.95rem;
+}
+
+/* RESPONSIVE CHO CỔNG TUYỂN DỤNG */
+@media (max-width: 1080px) {
+  .recruit-banner {
+    display: none;
+  }
+  .recruit-form-panel {
+    flex: 1;
+    width: 100%;
+    padding: 24px;
+  }
+  .recruitment-top-nav {
+    padding: 0 20px;
+  }
+  .recruit-live-stat-pill {
+    display: none;
+  }
 }
 
 /* ---------- 4. MODERN SIDEBAR ---------- */
