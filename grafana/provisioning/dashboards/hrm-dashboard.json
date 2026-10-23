@@ -247,13 +247,68 @@
     {
       "collapsed": false,
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 21 },
+      "id": 104,
+      "title": "GIÁM SÁT TÀI NGUYÊN CONTAINER (CONTAINER CPU & RAM)",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "percent"
+        }
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 22 },
+      "id": 10,
+      "title": "Container CPU Usage (%)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "Prometheus" },
+          "expr": "rate(hrm_process_cpu_seconds_total[1m]) * 100",
+          "legendFormat": "Container CPU Usage (%)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "Prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "bytes"
+        }
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 22 },
+      "id": 11,
+      "title": "Container Memory (Resident RSS & Heap Used)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "Prometheus" },
+          "expr": "hrm_process_resident_memory_bytes",
+          "legendFormat": "RSS Memory (Container RAM)",
+          "refId": "A"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "Prometheus" },
+          "expr": "hrm_nodejs_heap_size_used_bytes",
+          "legendFormat": "Node.js Heap Used",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 29 },
       "id": 103,
-      "title": "LOGQL LIVE STREAMING (GRAFANA + LOKI)",
+      "title": "LOGQL LIVE STREAMING & TRUY VẤN NHẬT KÝ (LOKI + PROMTAIL)",
       "type": "row"
     },
     {
       "datasource": { "type": "loki", "uid": "Loki" },
-      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 22 },
+      "gridPos": { "h": 9, "w": 16, "x": 0, "y": 30 },
       "id": 7,
       "options": {
         "dedupStrategy": "none",
@@ -275,6 +330,28 @@
       ],
       "title": "Nhật ký Hệ thống HRM App (LogQL: {job=\"hrm-app\"})",
       "type": "logs"
+    },
+    {
+      "datasource": { "type": "loki", "uid": "Loki" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "bars" },
+          "unit": "short"
+        }
+      },
+      "gridPos": { "h": 9, "w": 8, "x": 16, "y": 30 },
+      "id": 12,
+      "title": "Tần suất ghi Log (LogQL: rate({job=\"hrm-app\"}[1m]))",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": { "type": "loki", "uid": "Loki" },
+          "editorMode": "code",
+          "expr": "sum(rate({job=\"hrm-app\"}[1m]))",
+          "legendFormat": "Logs/sec",
+          "refId": "A"
+        }
+      ]
     }
   ],
   "refresh": "5s",
