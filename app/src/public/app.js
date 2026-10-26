@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupForms();
   setupFilters();
   setupMonitoringLinks();
+  setupEmployeeDashboardActions();
 
   // Mặc định ngày hôm nay cho chấm công
   const today = new Date().toISOString().split('T')[0];
@@ -233,6 +234,7 @@ function applyUserRoleUI() {
   const headerAvatar = document.getElementById('header-user-avatar');
   const headerName = document.getElementById('header-user-name');
   const headerRole = document.getElementById('header-user-role');
+  const viewTitle = document.getElementById('view-title');
 
   if (headerName) headerName.innerText = currentUser.full_name || currentUser.username;
   if (headerAvatar) {
@@ -248,11 +250,26 @@ function applyUserRoleUI() {
     }
   }
 
-  // Ẩn/hiện các nút bấm theo quyền ADMIN
+  // Ẩn/hiện các nút bấm theo quyền ADMIN (bao gồm cả tab Giám sát & Logs)
   const adminElements = document.querySelectorAll('.admin-only');
   adminElements.forEach(el => {
     el.style.display = currentUser.role === 'ADMIN' ? '' : 'none';
   });
+
+  // Chuyển đổi giữa Admin Dashboard và Employee Dashboard
+  const adminDashView = document.getElementById('admin-dashboard-view');
+  const empDashView = document.getElementById('employee-dashboard-view');
+
+  if (currentUser.role === 'EMPLOYEE') {
+    if (adminDashView) adminDashView.style.display = 'none';
+    if (empDashView) empDashView.style.display = 'block';
+    if (viewTitle) viewTitle.innerText = 'Cổng Thông tin Nhân viên';
+    loadEmployeeDashboard();
+  } else {
+    if (adminDashView) adminDashView.style.display = 'block';
+    if (empDashView) empDashView.style.display = 'none';
+    if (viewTitle) viewTitle.innerText = 'Bảng điều khiển Tổng quan';
+  }
 
   // Điều chỉnh form điểm danh nhanh
   const quickEmpGroup = document.getElementById('quick-emp-select-group');
@@ -299,11 +316,21 @@ function setupNavigation() {
       if (pane) pane.classList.add('active');
 
       if (viewTitle && viewTitles[targetTab]) {
-        viewTitle.innerText = viewTitles[targetTab];
+        if (targetTab === 'tab-dashboard' && currentUser && currentUser.role === 'EMPLOYEE') {
+          viewTitle.innerText = 'Cổng Thông tin Nhân viên';
+        } else {
+          viewTitle.innerText = viewTitles[targetTab];
+        }
       }
 
       // Làm mới dữ liệu tab được chọn
-      if (targetTab === 'tab-dashboard') loadDashboardStats();
+      if (targetTab === 'tab-dashboard') {
+        if (currentUser && currentUser.role === 'EMPLOYEE') {
+          loadEmployeeDashboard();
+        } else {
+          loadDashboardStats();
+        }
+      }
       if (targetTab === 'tab-employees') loadEmployees();
       if (targetTab === 'tab-departments') loadDepartments();
       if (targetTab === 'tab-attendance') loadAttendance();
@@ -380,12 +407,246 @@ function escapeHtml(str) {
 
 // =================== 3. TẢI DỮ LIỆU TOÀN CỤC ===================
 async function loadAllData() {
-  await Promise.all([
-    loadDashboardStats(),
+  const tasks = [
     loadDepartments(),
     loadEmployees(),
     loadAttendance()
-  ]);
+  ];
+  if (currentUser && currentUser.role === 'EMPLOYEE') {
+    tasks.push(loadEmployeeDashboard());
+  } else {
+    tasks.push(loadDashboardStats());
+  }
+  await Promise.all(tasks);
+}
+
+// =================== 3.1. CỔNG THÔNG TIN NHÂN VIÊN (EMPLOYEE DASHBOARD) ===================
+async function loadEmployeeDashboard() {
+  if (!currentUser) return;
+
+  try {
+    // 1. Tải thông tin hồ sơ nhân viên đầy đủ
+    let emp = null;
+    if (currentUser.employee_id) {
+      try {
+        const empRes = await authFetch(`/api/employees/${currentUser.employee_id}`);
+        if (empRes.ok) {
+          emp = await empRes.json();
+        }
+      } catch (e) {}
+    }
+
+    const fullName = emp?.full_name || currentUser.full_name || currentUser.username;
+    const empCode = emp?.code || currentUser.employee_code || 'NV001';
+    const deptName = emp?.department_name || 'Phòng ban';
+    const position = emp?.position || currentUser.position || 'Nhân viên';
+    const email = emp?.email || currentUser.email || '';
+    const phone = emp?.phone || 'Chưa cập nhật';
+    const contractType = emp?.contract_type || 'Toàn thời gian';
+    const status = emp?.status || 'ACTIVE';
+
+    const initials = fullName.slice(0, 2).toUpperCase();
+
+    // Điền thông tin vào Thẻ Chào mừng & Hồ sơ
+    const avatarEl = document.getElementById('emp-portal-avatar');
+    if (avatarEl) avatarEl.innerText = initials;
+    const nameEl = document.getElementById('emp-portal-fullname');
+    if (nameEl) nameEl.innerText = fullName;
+    const codeEl = document.getElementById('emp-portal-code');
+    if (codeEl) codeEl.innerText = empCode;
+    const deptEl = document.getElementById('emp-portal-dept');
+    if (deptEl) deptEl.innerText = deptName;
+    const posEl = document.getElementById('emp-portal-position');
+    if (posEl) posEl.innerText = position;
+    const emailEl = document.getElementById('emp-portal-email');
+    if (emailEl) emailEl.innerText = email;
+    const phoneEl = document.getElementById('emp-portal-phone');
+    if (phoneEl) phoneEl.innerText = phone;
+    const contractEl = document.getElementById('emp-policy-contract');
+    if (contractEl) contractEl.innerText = contractType;
+    const statusEl = document.getElementById('emp-portal-status');
+    if (statusEl) statusEl.innerText = status === 'ACTIVE' ? 'Đang làm việc' : status;
+
+    // 2. Tải lịch sử chấm công cá nhân tháng này
+    const now = new Date();
+    const todayStr = now.toISOString().split('T')[0];
+    const currentMonthStr = todayStr.slice(0, 7); // YYYY-MM
+
+    const attRes = await authFetch(`/api/attendances?month=${currentMonthStr}`);
+    const attList = attRes.ok ? await attRes.json() : [];
+
+    // Tính thống kê cá nhân trong tháng
+    let totalDays = 0;
+    let onTimeCount = 0;
+    let lateCount = 0;
+    let totalWorkHours = 0;
+
+    attList.forEach(a => {
+      if (a.check_in) {
+        totalDays++;
+        if (a.status === 'LATE') lateCount++;
+        else onTimeCount++;
+        totalWorkHours += parseFloat(a.work_hours || 0);
+      }
+    });
+
+    animateNumber('emp-stat-days', totalDays);
+    animateNumber('emp-stat-on-time', onTimeCount);
+    animateNumber('emp-stat-late', lateCount);
+    const hoursEl = document.getElementById('emp-stat-hours');
+    if (hoursEl) hoursEl.innerText = `${Math.round(totalWorkHours * 10) / 10}h`;
+
+    // 3. Trạng thái điểm danh hôm nay
+    const todayDateEl = document.getElementById('emp-today-date');
+    if (todayDateEl) {
+      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      todayDateEl.innerText = now.toLocaleDateString('vi-VN', dateOptions);
+    }
+
+    const todayRecord = attList.find(a => a.work_date && a.work_date.split('T')[0] === todayStr);
+
+    const circleEl = document.getElementById('emp-status-circle');
+    const titleEl = document.getElementById('emp-status-title');
+    const descEl = document.getElementById('emp-status-desc');
+    const checkinVal = document.getElementById('emp-today-checkin');
+    const checkoutVal = document.getElementById('emp-today-checkout');
+    const durationVal = document.getElementById('emp-today-duration');
+    const btnCheckin = document.getElementById('btn-emp-checkin');
+    const btnCheckout = document.getElementById('btn-emp-checkout');
+
+    if (!todayRecord || !todayRecord.check_in) {
+      if (circleEl) circleEl.className = 'status-indicator-circle waiting';
+      if (titleEl) titleEl.innerText = 'Chưa vào ca làm việc';
+      if (descEl) descEl.innerText = 'Bạn chưa điểm danh hôm nay. Vui lòng bấm "Check In Ngay" khi bắt đầu ca trực.';
+      if (checkinVal) checkinVal.innerText = '--:--:--';
+      if (checkoutVal) checkoutVal.innerText = '--:--:--';
+      if (durationVal) durationVal.innerText = '-- giờ';
+      if (btnCheckin) {
+        btnCheckin.disabled = false;
+        btnCheckin.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Check In Ngay';
+      }
+      if (btnCheckout) btnCheckout.disabled = true;
+    } else if (todayRecord.check_in && !todayRecord.check_out) {
+      const isLate = todayRecord.status === 'LATE';
+      if (circleEl) circleEl.className = 'status-indicator-circle active';
+      if (titleEl) titleEl.innerText = `Đang trong ca làm việc (${isLate ? 'Đi muộn' : 'Đúng giờ'})`;
+      if (descEl) descEl.innerText = `Đã Check-in lúc ${todayRecord.check_in}. Bấm Check Out khi bạn kết thúc ca làm việc.`;
+      if (checkinVal) checkinVal.innerText = todayRecord.check_in;
+      if (checkoutVal) checkoutVal.innerText = '--:--:--';
+      if (durationVal) durationVal.innerText = 'Đang làm việc';
+      if (btnCheckin) {
+        btnCheckin.disabled = true;
+        btnCheckin.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã Check In';
+      }
+      if (btnCheckout) btnCheckout.disabled = false;
+    } else {
+      if (circleEl) circleEl.className = 'status-indicator-circle completed';
+      if (titleEl) titleEl.innerText = 'Đã hoàn thành ca làm việc hôm nay';
+      if (descEl) descEl.innerText = `Ca làm việc đã kết thúc. Tổng thời gian ghi nhận: ${todayRecord.work_hours || 0} giờ.`;
+      if (checkinVal) checkinVal.innerText = todayRecord.check_in;
+      if (checkoutVal) checkoutVal.innerText = todayRecord.check_out;
+      if (durationVal) durationVal.innerText = `${todayRecord.work_hours || 0} giờ`;
+      if (btnCheckin) {
+        btnCheckin.disabled = true;
+        btnCheckin.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã Check In';
+      }
+      if (btnCheckout) {
+        btnCheckout.disabled = true;
+        btnCheckout.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã Check Out';
+      }
+    }
+
+    // 4. Render 7 ngày chấm công gần nhất của nhân viên
+    const tbody = document.getElementById('emp-personal-attendance-tbody');
+    if (tbody) {
+      tbody.innerHTML = '';
+      const recent7 = attList.slice(0, 7);
+      if (recent7.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">Chưa có lịch sử chấm công nào trong tháng này.</td></tr>';
+      } else {
+        recent7.forEach(rec => {
+          const tr = document.createElement('tr');
+          const isLate = rec.status === 'LATE';
+          const statusText = isLate ? 'Đi muộn' : (rec.status === 'PRESENT' ? 'Đúng giờ' : (rec.status || 'Chấm công'));
+          const statusClass = isLate ? 'late' : 'present';
+
+          tr.innerHTML = `
+            <td><i class="fa-regular fa-calendar text-muted"></i> <strong>${rec.work_date ? rec.work_date.split('T')[0] : 'N/A'}</strong></td>
+            <td><span class="badge-status online"><i class="fa-regular fa-clock"></i> ${rec.check_in || '--:--'}</span></td>
+            <td>${rec.check_out ? `<span class="badge-status online"><i class="fa-regular fa-clock"></i> ${rec.check_out}</span>` : '<span class="text-muted"><i class="fa-regular fa-circle-question"></i> Chưa out</span>'}</td>
+            <td><span class="salary-tag">${rec.work_hours || 0}h</span></td>
+            <td><span class="tag-status ${statusClass}">${statusText}</span></td>
+            <td>${escapeHtml(rec.notes || '-')}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+    }
+  } catch (err) {
+    console.error('loadEmployeeDashboard error:', err);
+  }
+}
+
+function setupEmployeeDashboardActions() {
+  const btnCheckin = document.getElementById('btn-emp-checkin');
+  const btnCheckout = document.getElementById('btn-emp-checkout');
+  const btnRefresh = document.getElementById('btn-refresh-emp-attendance');
+
+  if (btnCheckin) {
+    btnCheckin.addEventListener('click', async () => {
+      const notes = document.getElementById('emp-personal-notes')?.value || '';
+      try {
+        btnCheckin.disabled = true;
+        const res = await authFetch('/api/attendances/check-in', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ notes })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Lỗi khi Check In');
+
+        showToast('Điểm danh Check In ca trực hôm nay thành công!', 'success');
+        const notesInput = document.getElementById('emp-personal-notes');
+        if (notesInput) notesInput.value = '';
+        await loadEmployeeDashboard();
+        loadAttendance();
+      } catch (err) {
+        showToast(err.message, 'error');
+      } finally {
+        btnCheckin.disabled = false;
+      }
+    });
+  }
+
+  if (btnCheckout) {
+    btnCheckout.addEventListener('click', async () => {
+      try {
+        btnCheckout.disabled = true;
+        const res = await authFetch('/api/attendances/check-out', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({})
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Lỗi khi Check Out');
+
+        showToast(`Check Out ca làm việc thành công! Tổng số giờ: ${data.work_hours} giờ`, 'success');
+        await loadEmployeeDashboard();
+        loadAttendance();
+      } catch (err) {
+        showToast(err.message, 'error');
+      } finally {
+        btnCheckout.disabled = false;
+      }
+    });
+  }
+
+  if (btnRefresh) {
+    btnRefresh.addEventListener('click', () => {
+      loadEmployeeDashboard();
+      showToast('Đã làm mới dữ liệu chấm công cá nhân!', 'info');
+    });
+  }
 }
 
 // =================== 4. DASHBOARD & BIỂU ĐỒ ===================

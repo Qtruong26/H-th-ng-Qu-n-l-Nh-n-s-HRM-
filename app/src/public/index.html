@@ -222,7 +222,7 @@
       <button class="nav-btn" data-tab="tab-attendance">
         <i class="fa-solid fa-calendar-check"></i> Chấm công
       </button>
-      <button class="nav-btn" data-tab="tab-monitoring">
+      <button class="nav-btn admin-only" data-tab="tab-monitoring">
         <i class="fa-solid fa-server"></i> Giám sát & Logs
       </button>
     </nav>
@@ -256,7 +256,7 @@
           <span id="live-clock">--:--:--</span>
         </div>
 
-        <a href="/metrics" target="_blank" class="badge-link">
+        <a href="/metrics" target="_blank" class="badge-link admin-only">
           <i class="fa-solid fa-chart-line"></i> /metrics
         </a>
 
@@ -320,8 +320,10 @@
     <div class="content-body">
       <!-- 1. DASHBOARD TAB -->
       <section id="tab-dashboard" class="tab-pane active">
-        <!-- DevOps Real-time Telemetry Banner -->
-        <div class="telemetry-banner">
+        <!-- ADMIN DASHBOARD VIEW (DÀNH CHO QUẢN TRỊ VIÊN) -->
+        <div id="admin-dashboard-view">
+          <!-- DevOps Real-time Telemetry Banner -->
+          <div class="telemetry-banner">
           <div class="telemetry-item">
             <div class="telemetry-icon icon-blue"><i class="fa-brands fa-node-js"></i></div>
             <div class="telemetry-details">
@@ -492,6 +494,172 @@
             </table>
           </div>
         </div>
+      </div>
+
+      <!-- EMPLOYEE PERSONAL DASHBOARD VIEW (DÀNH CHO NHÂN VIÊN) -->
+      <div id="employee-dashboard-view" style="display: none;">
+        <!-- 1. Thẻ Chào mừng & Hồ sơ Nhân viên -->
+        <div class="emp-portal-banner">
+          <div class="emp-portal-avatar" id="emp-portal-avatar">NA</div>
+          <div class="emp-portal-info">
+            <div class="emp-portal-greeting">
+              <h2>Xin chào, <span id="emp-portal-fullname">Nguyễn Văn An</span> 👋</h2>
+              <span class="tag-status active" id="emp-portal-status">Đang làm việc</span>
+            </div>
+            <p class="emp-portal-sub">Chào mừng bạn quay trở lại bàn làm việc hôm nay. Chúc bạn một ngày làm việc hiệu quả và tràn đầy năng lượng!</p>
+            <div class="emp-portal-chips">
+              <span class="emp-chip"><i class="fa-solid fa-barcode"></i> Mã NV: <strong id="emp-portal-code">NV001</strong></span>
+              <span class="emp-chip"><i class="fa-solid fa-building"></i> Phòng ban: <strong id="emp-portal-dept">Phòng Công nghệ Thông tin</strong></span>
+              <span class="emp-chip"><i class="fa-solid fa-briefcase"></i> Chức vụ: <strong id="emp-portal-position">DevOps Engineer</strong></span>
+              <span class="emp-chip"><i class="fa-solid fa-envelope"></i> Email: <strong id="emp-portal-email">an.nguyen@hrm.com</strong></span>
+              <span class="emp-chip"><i class="fa-solid fa-phone"></i> SĐT: <strong id="emp-portal-phone">0912345678</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Thống kê Chấm công Cá nhân Tháng này -->
+        <div class="stats-grid" style="margin-top: 24px;">
+          <div class="stat-card">
+            <div class="stat-icon icon-blue"><i class="fa-solid fa-calendar-check"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Ngày công Tháng này</span>
+              <h3 class="stat-value" id="emp-stat-days">0</h3>
+              <span style="font-size: 0.75rem; color: #16a34a; font-weight: 500; margin-top: 2px;"><i class="fa-solid fa-circle-check"></i> Ca làm việc hoàn thành</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-green"><i class="fa-solid fa-clock"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Đúng giờ</span>
+              <h3 class="stat-value" id="emp-stat-on-time">0</h3>
+              <span style="font-size: 0.75rem; color: #16a34a; font-weight: 500; margin-top: 2px;"><i class="fa-solid fa-thumbs-up"></i> Tỷ lệ chuyên cần cao</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-amber"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Đi muộn</span>
+              <h3 class="stat-value" id="emp-stat-late">0</h3>
+              <span style="font-size: 0.75rem; color: #d97706; font-weight: 500; margin-top: 2px;"><i class="fa-solid fa-business-time"></i> Ghi nhận muộn sau 08:15</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-purple"><i class="fa-solid fa-hourglass-half"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Tổng giờ làm việc</span>
+              <h3 class="stat-value" id="emp-stat-hours">0h</h3>
+              <span style="font-size: 0.75rem; color: #8b5cf6; font-weight: 500; margin-top: 2px;"><i class="fa-solid fa-chart-line"></i> Giờ thực tế tích lũy</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Khu vực Điểm danh Hôm nay & Lịch sử cá nhân -->
+        <div class="charts-grid" style="margin-top: 24px;">
+          <!-- Box Điểm danh nhanh Cá nhân -->
+          <div class="widget-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-fingerprint"></i> Điểm danh Cá nhân Hôm nay</h3>
+              <span class="tag-today" id="emp-today-date">Hôm nay</span>
+            </div>
+            <div class="emp-attendance-card-body">
+              <div class="emp-checkin-status-banner" id="emp-checkin-status-box">
+                <div class="status-indicator-circle waiting" id="emp-status-circle"></div>
+                <div>
+                  <h4 id="emp-status-title">Chưa vào ca làm việc</h4>
+                  <p id="emp-status-desc">Vui lòng bấm nút Check In bên dưới khi bạn bắt đầu ca làm việc.</p>
+                </div>
+              </div>
+
+              <div class="emp-today-times-grid">
+                <div class="time-block">
+                  <span class="time-block-label"><i class="fa-solid fa-right-to-bracket text-green"></i> Giờ vào (Check-in)</span>
+                  <strong class="time-block-val" id="emp-today-checkin">--:--:--</strong>
+                </div>
+                <div class="time-block">
+                  <span class="time-block-label"><i class="fa-solid fa-right-from-bracket text-blue"></i> Giờ ra (Check-out)</span>
+                  <strong class="time-block-val" id="emp-today-checkout">--:--:--</strong>
+                </div>
+                <div class="time-block">
+                  <span class="time-block-label"><i class="fa-solid fa-stopwatch text-purple"></i> Tổng thời gian</span>
+                  <strong class="time-block-val" id="emp-today-duration">-- giờ</strong>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-top: 16px;">
+                <label for="emp-personal-notes" style="font-weight: 600; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; display: block;">Ghi chú hôm nay (nếu có):</label>
+                <input type="text" id="emp-personal-notes" class="form-control" placeholder="Ghi chú công việc, lý do công tác...">
+              </div>
+
+              <div class="button-group" style="margin-top: 16px; display: flex; gap: 12px;">
+                <button id="btn-emp-checkin" class="btn btn-primary" style="flex: 1; padding: 12px; font-size: 0.95rem;">
+                  <i class="fa-solid fa-right-to-bracket"></i> Check In Ngay
+                </button>
+                <button id="btn-emp-checkout" class="btn btn-secondary" style="flex: 1; padding: 12px; font-size: 0.95rem;">
+                  <i class="fa-solid fa-right-from-bracket"></i> Check Out
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Box Thông tin Hợp đồng & Chế độ làm việc -->
+          <div class="widget-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-id-card-clip"></i> Chế độ & Quy định Làm việc</h3>
+              <span class="tag-today" style="background: #eef2ff; color: #4f46e5; border-color: #c7d2fe;">Nội quy HRM</span>
+            </div>
+            <ul class="infra-list" style="padding: 6px 0;">
+              <li>
+                <span class="infra-name"><i class="fa-solid fa-business-time text-blue"></i> Khung giờ làm việc</span>
+                <span class="badge-status online" style="background: #ecfdf5; color: #065f46;">08:00 - 17:30 (Thứ 2 - Thứ 6)</span>
+              </li>
+              <li>
+                <span class="infra-name"><i class="fa-solid fa-bell text-amber"></i> Quy định tính đi muộn</span>
+                <span class="badge-status online" style="background: #fffbeb; color: #92400e;">Sau 08:15 tính là LATE</span>
+              </li>
+              <li>
+                <span class="infra-name"><i class="fa-solid fa-file-signature text-purple"></i> Loại hợp đồng lao động</span>
+                <span class="badge-status online" id="emp-policy-contract">Toàn thời gian</span>
+              </li>
+              <li>
+                <span class="infra-name"><i class="fa-solid fa-shield-halved text-green"></i> Bảo mật thông tin</span>
+                <span class="badge-status online">Mức lương & Thông tin được mã hóa</span>
+              </li>
+            </ul>
+            <div style="margin-top: 18px; padding: 12px 16px; background: rgba(99, 102, 241, 0.06); border-radius: 10px; border-left: 3px solid #6366f1;">
+              <p style="font-size: 0.82rem; color: var(--text-body); margin: 0; line-height: 1.5;">
+                <i class="fa-solid fa-circle-info text-blue"></i> Mọi thắc mắc về ngày công hoặc cần xin nghỉ phép, vui lòng liên hệ trực tiếp Quản lý trực tiếp hoặc Phòng Hành chính Nhân sự (HR).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Bảng Lịch sử Chấm công 7 Ngày gần nhất của tôi -->
+        <div class="widget-card" style="margin-top: 24px;">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử Chấm công Gần đây của Tôi</h3>
+            <button class="btn btn-outline" id="btn-refresh-emp-attendance" style="padding: 4px 10px; font-size: 0.8rem;">
+              <i class="fa-solid fa-rotate"></i> Làm mới
+            </button>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Ngày làm việc</th>
+                  <th>Giờ vào (Check In)</th>
+                  <th>Giờ ra (Check Out)</th>
+                  <th>Tổng giờ làm</th>
+                  <th>Trạng thái</th>
+                  <th>Ghi chú</th>
+                </tr>
+              </thead>
+              <tbody id="emp-personal-attendance-tbody">
+                <tr><td colspan="6" class="text-center">Đang tải lịch sử chấm công...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       </section>
 
       <!-- 2. EMPLOYEES TAB -->
